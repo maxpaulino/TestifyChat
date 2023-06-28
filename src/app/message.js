@@ -1,25 +1,23 @@
-const whatsapp = require("./src/config/whatsapp");
-const functions = require("./src/app/functions");
-const responses = require("./src/app/response");
+import { client } from "./src/config/whatsapp";
+import { find } from "./src/app/functions";
+import { runResponse } from "./src/app/response";
 
 var history = [];
 
 function callFunction(function_call) {
-  const func = functions.find(
-    (func) => func.schema.name === function_call.name
-  );
+  const func = find((func) => func.schema.name === function_call.name);
   const args = JSON.parse(function_call.arguments);
   return func.function(args);
 }
 
-whatsapp.client.on("message", (message) => {
+client.on("message", (message) => {
   console.log(message.body);
 
   if (message.body.startsWith("?!?")) {
     history.push({ role: "user", content: message.text });
 
     let responseText = "";
-    var response = responses.runResponse(history);
+    var response = runResponse(history);
 
     if (response.function_call) {
       responseText = callFunction(response.function_call);

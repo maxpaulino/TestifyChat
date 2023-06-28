@@ -1,12 +1,12 @@
-const mongo = require("./src/config/mongodb");
-const responses = require("./src/app/response");
+import { database } from "./src/config/mongodb";
+import { runQuestionGeneration } from "./src/app/response";
 
 async function createQuestion(tag, level) {
   let prompt_list = [];
   let ready = false;
 
   while (!ready) {
-    let result = responses.runQuestionGeneration(tag, level);
+    let result = runQuestionGeneration(tag, level);
     prompt_list = result.split("\n\n");
     if (prompt_list.length === 3) {
       if (prompt_list[2].length !== 4) {
@@ -34,7 +34,7 @@ async function createQuestion(tag, level) {
   };
 
   try {
-    await mongo.database.collection("questions").insertOne(question_data);
+    await database.collection("questions").insertOne(question_data);
     return "Question created!";
     // Consider adding description of the question
   } catch (e) {
@@ -48,7 +48,7 @@ async function createQuestions(tag, level, number) {
     let ready = false;
 
     while (!ready) {
-      let result = await responses.runQuestionGeneration(tag, level);
+      let result = await runQuestionGeneration(tag, level);
       prompt_list = result.split("\n\n");
       if (prompt_list.length === 3) {
         if (prompt_list[2].length !== 4) {
@@ -76,7 +76,7 @@ async function createQuestions(tag, level, number) {
     };
 
     try {
-      await mongo.database.collection("questions").insertOne(question_data);
+      await database.collection("questions").insertOne(question_data);
     } catch (e) {
       console.log(e.toString());
     }
@@ -86,7 +86,7 @@ async function createQuestions(tag, level, number) {
 
 async function getQuestionsByTag(tag) {
   try {
-    let questions = await mongo.database
+    let questions = await database
       .collection("questions")
       .find({ tag })
       .toArray();
@@ -101,7 +101,7 @@ async function getQuestionsByTag(tag) {
 
 async function getQuestionById(id) {
   try {
-    let question = await mongo.database
+    let question = await database
       .collection("questions")
       .findOne({ id })
       .toArray();
@@ -116,10 +116,7 @@ async function getQuestionById(id) {
 
 async function getAllQuestions() {
   try {
-    let questions = await mongo.database
-      .collection("questions")
-      .find({})
-      .toArray();
+    let questions = await database.collection("questions").find({}).toArray();
 
     let questionsString = JSON.stringify(questions);
     return questionsString;
@@ -131,7 +128,7 @@ async function getAllQuestions() {
 
 async function deleteQuestion(id) {
   try {
-    await mongo.database.collection("questions").deleteOne({ id });
+    await database.collection("questions").deleteOne({ id });
     return "Deleted question!";
   } catch (e) {
     console.error(e);
@@ -141,7 +138,7 @@ async function deleteQuestion(id) {
 
 async function deleteAllQuestions() {
   try {
-    await mongo.database.collection("questions").deleteMany({});
+    await database.collection("questions").deleteMany({});
     return "Deleted questions!";
   } catch (e) {
     console.error(e);
@@ -151,7 +148,7 @@ async function deleteAllQuestions() {
 
 async function setQuestionsStatusByTag(tag, status) {
   try {
-    await mongo.database
+    await database
       .collection("questions")
       .updateMany({ tag }, { $set: { status } });
     return "Set questions!";
@@ -163,7 +160,7 @@ async function setQuestionsStatusByTag(tag, status) {
 
 async function setQuestionStatusById(id, status) {
   try {
-    await mongo.database
+    await database
       .collection("questions")
       .updateOne({ id }, { $set: { status } });
     return "Set question!";
@@ -175,9 +172,7 @@ async function setQuestionStatusById(id, status) {
 
 async function setAllQuestionsStatus(status) {
   try {
-    await mongo.database
-      .collection("questions")
-      .updateMany({}, { $set: { status } });
+    await database.collection("questions").updateMany({}, { $set: { status } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
@@ -189,16 +184,14 @@ function displayCommandDescriptions() {
   return "Descriptions!";
 }
 
-module.exports = {
-  createQuestion: createQuestion,
-  createQuestions: createQuestions,
-  getQuestionsByTag: getQuestionsByTag,
-  getQuestionById: getQuestionById,
-  getAllQuestions: getAllQuestions,
-  deleteQuestion: deleteQuestion,
-  deleteAllQuestions: deleteAllQuestions,
-  setQuestionsStatusByTag: setQuestionsStatusByTag,
-  setQuestionStatusById: setQuestionStatusById,
-  setAllQuestionsStatus: setAllQuestionsStatus,
-  displayCommandDescriptions: displayCommandDescriptions,
-};
+export const createQuestion = createQuestion;
+export const createQuestions = createQuestions;
+export const getQuestionsByTag = getQuestionsByTag;
+export const getQuestionById = getQuestionById;
+export const getAllQuestions = getAllQuestions;
+export const deleteQuestion = deleteQuestion;
+export const deleteAllQuestions = deleteAllQuestions;
+export const setQuestionsStatusByTag = setQuestionsStatusByTag;
+export const setQuestionStatusById = setQuestionStatusById;
+export const setAllQuestionsStatus = setAllQuestionsStatus;
+export const displayCommandDescriptions = displayCommandDescriptions;

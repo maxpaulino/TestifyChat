@@ -1,4 +1,4 @@
-const MongoClient = require("mongodb").MongoClient;
+import { MongoClient } from "mongodb";
 require("dotenv").config();
 
 const uri =
@@ -24,6 +24,6 @@ connectToMongoDB();
 
 const database = client.db("Questions");
 
-module.exports = database;
+export default database;
 
 // Solid

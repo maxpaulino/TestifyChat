@@ -1,5 +1,5 @@
-const openai = require("./src/config/openai");
-const functions = require("./src/app/functions");
+import { createChatCompletion } from "./src/config/openai";
+import { map } from "./src/app/functions";
 
 async function runResponse(history) {
   const payload = {
@@ -12,10 +12,10 @@ async function runResponse(history) {
       },
       ...history,
     ],
-    functions: functions.map((func) => func.schema),
+    functions: map((func) => func.schema),
   };
 
-  const result = await openai.createChatCompletion(payload);
+  const result = await createChatCompletion(payload);
   return result.data.choices.shift().message;
 }
 
@@ -42,11 +42,11 @@ async function runQuestionGeneration(tag, level) {
     temperature: 0.75,
   };
 
-  const result = await openai.createChatCompletion(payload);
+  const result = await createChatCompletion(payload);
   return result.data.choices.shift().message;
 }
 
-module.exports = {
+export default {
   runResponse,
   runQuestionGeneration,
 };

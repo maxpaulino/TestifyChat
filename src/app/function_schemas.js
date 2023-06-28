@@ -1,4 +1,4 @@
-const {
+import {
   createQuestion,
   createQuestions,
   getQuestionByTag,
@@ -10,7 +10,7 @@ const {
   setQuestionStatusById,
   setAllQuestionsStatus,
   displayCommandDescriptions,
-} = require("./src/app/functions");
+} from "./src/app/functions";
 
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
@@ -204,6 +204,6 @@ const availableFunctions = [
   },
 ];
 
-module.exports = availableFunctions;
+export default availableFunctions;
 
 // Solid
