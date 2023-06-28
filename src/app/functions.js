@@ -1,18 +1,57 @@
-const mongo_client = require("./src/config/mongodb");
+const mongo_db = require("./src/config/mongodb");
+const responses = require("./src/app/response");
 
-function createQuestion(id, tag, level, dbo, callback) {
-  const question = { id, tag, level, status: "pending" };
-  dbo.collection("questions").insertOne(question, callback);
-  return "Question created!";
+async function createQuestion(tag, level, callback) {
+  let prompt_list = [];
+  let ready = false;
+
+  while (!ready) {
+    let result = responses.runQuestionGeneration(tag, level);
+    prompt_list = result.split("\n\n");
+    if (prompt_list.length === 3) {
+      if (prompt_list[2].length !== 4) {
+        ready = true;
+      }
+    }
+  }
+
+  let question = prompt_list[0].substring(3);
+  let choices = prompt_list[1].split("\n");
+  let answer = prompt_list[2].substring(3);
+
+  if (answer.startsWith("wer: ")) {
+    answer = prompt_list[2].substring(8);
+  }
+
+  const question_data = {
+    tag: tag,
+    level: level,
+    question: question,
+    choices: choices,
+    answer: answer,
+    status: "pending",
+    revised: False,
+  };
+
+  try {
+    await mongo_db.collection("questions").insertOne(question_data, callback);
+    return "Question created!";
+    // Consider adding description of the question
+  } catch (e) {
+    return e.toString();
+  }
 }
 
-function createQuestions(questions, dbo, callback) {
-  dbo.collection("questions").insertMany(questions, callback);
+function createQuestions(tag, level, number, callback) {
+  mongo_db.collection("questions").insertMany(questions, callback);
   return "Questions created!";
 }
 
-function getQuestionsByTag(tag, dbo, callback) {
-  dbo.collection("questions").find({ tag }).toArray(callback);
+function getQuestionsByTag(tag, callback) {
+  let questions = mongo_db
+    .collection("questions")
+    .find({ tag })
+    .toArray(callback);
   return "Got them!";
 }
 
