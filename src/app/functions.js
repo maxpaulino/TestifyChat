@@ -1,5 +1,5 @@
-const mongodb = require("./src/config/mongodb");
-const generation = require("./src/app/generation");
+const mongodb = require("./src/config/mongodb.js");
+const generation = require("./src/app/generation.js");
 
 async function createQuestion(tag, level) {
   let prompt_list = [];

@@ -1,5 +1,5 @@
-const openai = require(".src/config/openai");
-const function_schemas = require(".src/app/function_schemas");
+const openai = require(".src/config/openai.js");
+const function_schemas = require(".src/app/function_schemas.js");
 
 async function runResponse(history) {
   const payload = {
