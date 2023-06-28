@@ -5,6 +5,7 @@ const uri =
   "mongodb+srv://maxpaulino:" +
   process.env.MONGODB_PASSWORD +
   "@testify.mgathan.mongodb.net/?retryWrites=true&w=majority";
+
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,6 +22,6 @@ async function connectToMongoDB() {
 
 connectToMongoDB();
 
-const db = client.db("Questions");
+const database = client.db("Questions");
 
-module.exports = db;
+module.exports = database;
