@@ -1,4 +1,4 @@
-const whatsapp_client = require("./src/config/whatsapp");
+const whatsapp = require("./src/config/whatsapp");
 const functions = require("./src/app/functions");
 const responses = require("./src/app/response");
 
@@ -12,7 +12,7 @@ function callFunction(function_call) {
   return func.function(args);
 }
 
-whatsapp_client.on("message", (message) => {
+whatsapp.client.on("message", (message) => {
   console.log(message.body);
 
   if (message.body.startsWith("?!?")) {
