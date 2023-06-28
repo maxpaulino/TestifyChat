@@ -1,12 +1,12 @@
-import { database } from "./src/config/mongodb";
-import { runQuestionGeneration } from "./src/app/response";
+const mongodb = require("./src/config/mongodb");
+const generation = require("./src/app/generation");
 
 async function createQuestion(tag, level) {
   let prompt_list = [];
   let ready = false;
 
   while (!ready) {
-    let result = runQuestionGeneration(tag, level);
+    let result = generation.runQuestionGeneration(tag, level);
     prompt_list = result.split("\n\n");
     if (prompt_list.length === 3) {
       if (prompt_list[2].length !== 4) {
@@ -34,7 +34,7 @@ async function createQuestion(tag, level) {
   };
 
   try {
-    await database.collection("questions").insertOne(question_data);
+    await mongodb.database.collection("questions").insertOne(question_data);
     return "Question created!";
     // Consider adding description of the question
   } catch (e) {
@@ -48,7 +48,7 @@ async function createQuestions(tag, level, number) {
     let ready = false;
 
     while (!ready) {
-      let result = await runQuestionGeneration(tag, level);
+      let result = await generation.runQuestionGeneration(tag, level);
       prompt_list = result.split("\n\n");
       if (prompt_list.length === 3) {
         if (prompt_list[2].length !== 4) {
@@ -76,7 +76,7 @@ async function createQuestions(tag, level, number) {
     };
 
     try {
-      await database.collection("questions").insertOne(question_data);
+      await mongodb.database.collection("questions").insertOne(question_data);
     } catch (e) {
       console.log(e.toString());
     }
@@ -86,7 +86,7 @@ async function createQuestions(tag, level, number) {
 
 async function getQuestionsByTag(tag) {
   try {
-    let questions = await database
+    let questions = await mongodb.database
       .collection("questions")
       .find({ tag })
       .toArray();
@@ -101,7 +101,7 @@ async function getQuestionsByTag(tag) {
 
 async function getQuestionById(id) {
   try {
-    let question = await database
+    let question = await mongodb.database
       .collection("questions")
       .findOne({ id })
       .toArray();
@@ -116,7 +116,10 @@ async function getQuestionById(id) {
 
 async function getAllQuestions() {
   try {
-    let questions = await database.collection("questions").find({}).toArray();
+    let questions = await mongodb.database
+      .collection("questions")
+      .find({})
+      .toArray();
 
     let questionsString = JSON.stringify(questions);
     return questionsString;
@@ -128,7 +131,7 @@ async function getAllQuestions() {
 
 async function deleteQuestion(id) {
   try {
-    await database.collection("questions").deleteOne({ id });
+    await mongodb.database.collection("questions").deleteOne({ id });
     return "Deleted question!";
   } catch (e) {
     console.error(e);
@@ -138,7 +141,7 @@ async function deleteQuestion(id) {
 
 async function deleteAllQuestions() {
   try {
-    await database.collection("questions").deleteMany({});
+    await mongodb.database.collection("questions").deleteMany({});
     return "Deleted questions!";
   } catch (e) {
     console.error(e);
@@ -148,7 +151,7 @@ async function deleteAllQuestions() {
 
 async function setQuestionsStatusByTag(tag, status) {
   try {
-    await database
+    await mongodb.database
       .collection("questions")
       .updateMany({ tag }, { $set: { status } });
     return "Set questions!";
@@ -160,7 +163,7 @@ async function setQuestionsStatusByTag(tag, status) {
 
 async function setQuestionStatusById(id, status) {
   try {
-    await database
+    await mongodb.database
       .collection("questions")
       .updateOne({ id }, { $set: { status } });
     return "Set question!";
@@ -172,7 +175,9 @@ async function setQuestionStatusById(id, status) {
 
 async function setAllQuestionsStatus(status) {
   try {
-    await database.collection("questions").updateMany({}, { $set: { status } });
+    await mongodb.database
+      .collection("questions")
+      .updateMany({}, { $set: { status } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
