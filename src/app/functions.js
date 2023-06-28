@@ -189,14 +189,16 @@ function displayCommandDescriptions() {
   return "Descriptions!";
 }
 
-export const createQuestion = createQuestion;
-export const createQuestions = createQuestions;
-export const getQuestionsByTag = getQuestionsByTag;
-export const getQuestionById = getQuestionById;
-export const getAllQuestions = getAllQuestions;
-export const deleteQuestion = deleteQuestion;
-export const deleteAllQuestions = deleteAllQuestions;
-export const setQuestionsStatusByTag = setQuestionsStatusByTag;
-export const setQuestionStatusById = setQuestionStatusById;
-export const setAllQuestionsStatus = setAllQuestionsStatus;
-export const displayCommandDescriptions = displayCommandDescriptions;
+module.exports = {
+  createQuestion: createQuestion,
+  createQuestions: createQuestions,
+  getAllQuestions: getAllQuestions,
+  getQuestionById: getQuestionById,
+  getQuestionsByTag: getQuestionsByTag,
+  setAllQuestionsStatus: setAllQuestionsStatus,
+  setQuestionStatusById: setQuestionStatusById,
+  setQuestionsStatusByTag: setQuestionsStatusByTag,
+  deleteQuestion: deleteQuestion,
+  deleteAllQuestions: deleteAllQuestions,
+  displayCommandDescriptions: displayCommandDescriptions,
+};

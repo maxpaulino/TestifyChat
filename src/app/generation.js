@@ -46,7 +46,7 @@ async function runQuestionGeneration(tag, level) {
   return result.data.choices.shift().message;
 }
 
-export default {
+module.exports = {
   runResponse,
   runQuestionGeneration,
 };

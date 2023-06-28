@@ -192,6 +192,6 @@ const availableFunctions = [
   },
 ];
 
-export default availableFunctions;
+module.exports = availableFunctions;
 
 // Solid
