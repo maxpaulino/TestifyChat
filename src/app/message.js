@@ -1,6 +1,6 @@
-const whatsapp = require("./src/config/whatsapp.js");
-const functions = require("./src/app/functions.js");
-const generation = require("./src/app/generation.js");
+const whatsapp = require("../config/whatsapp.js");
+const functions = require("./functions.js");
+const generation = require("./generation.js");
 
 var history = [];
 
