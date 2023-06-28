@@ -11,8 +11,8 @@ client.on("ready", () => {
   console.log("Client is ready!");
 });
 
-whatsapp = client.initialize();
+client.initialize();
 
-module.exports = whatsapp;
+module.exports = client;
 
 // Solid

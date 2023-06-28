@@ -12,7 +12,7 @@ function callFunction(function_call) {
   return func.function(args);
 }
 
-whatsapp.client.on("message", (message) => {
+whatsapp.on("message", (message) => {
   console.log(message.body);
 
   if (message.body.startsWith("?!?")) {
