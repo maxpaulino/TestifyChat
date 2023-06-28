@@ -4,3 +4,6 @@
 
 # dependencies
 /node_modules
+
+# cache
+/.wwebjs_cache
