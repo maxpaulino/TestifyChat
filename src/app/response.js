@@ -1,9 +1,7 @@
 const openai = require("./src/config/openai");
 const functions = require("./src/app/functions");
 
-var history = [];
-
-async function runResponse() {
+async function runResponse(history) {
   const payload = {
     model: "gpt-3.5-turbo-0613",
     messages: [

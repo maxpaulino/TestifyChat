@@ -1,6 +1,8 @@
 const whatsapp_client = require("./src/config/whatsapp");
 const functions = require("./src/app/functions");
 
+var history = [];
+
 function callFunction(function_call) {
   const func = functions.find(
     (func) => func.schema.name === function_call.name
@@ -17,7 +19,7 @@ whatsapp_client.on("message", (message) => {
     history.push({ role: "user", content: message.text });
 
     let responseText = "";
-    var response = await runResponse(message.body.substring(1));
+    var response = await runResponse(history);
 
     if (response.function_call) {
       responseText = callFunction(response.function_call);
@@ -25,7 +27,7 @@ whatsapp_client.on("message", (message) => {
     } else {
       responseText = response.content;
       history.push({ role: "assistant", content: responseText });
-  }
-    message.reply(response);
+    }
+    message.reply(responseText);
   }
 });
