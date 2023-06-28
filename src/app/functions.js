@@ -1,7 +1,7 @@
-const mongo_db = require("./src/config/mongodb");
+const mongo = require("./src/config/mongodb");
 const responses = require("./src/app/response");
 
-async function createQuestion(tag, level, callback) {
+async function createQuestion(tag, level) {
   let prompt_list = [];
   let ready = false;
 
@@ -34,7 +34,7 @@ async function createQuestion(tag, level, callback) {
   };
 
   try {
-    await mongo_db.collection("questions").insertOne(question_data, callback);
+    await mongo.database.collection("questions").insertOne(question_data);
     return "Question created!";
     // Consider adding description of the question
   } catch (e) {
@@ -42,59 +42,151 @@ async function createQuestion(tag, level, callback) {
   }
 }
 
-function createQuestions(tag, level, number, callback) {
-  mongo_db.collection("questions").insertMany(questions, callback);
+async function createQuestions(tag, level, number) {
+  for (let i = 0; i < number; i++) {
+    let prompt_list = [];
+    let ready = false;
+
+    while (!ready) {
+      let result = await responses.runQuestionGeneration(tag, level);
+      prompt_list = result.split("\n\n");
+      if (prompt_list.length === 3) {
+        if (prompt_list[2].length !== 4) {
+          ready = true;
+        }
+      }
+    }
+
+    let question = prompt_list[0].substring(3);
+    let choices = prompt_list[1].split("\n");
+    let answer = prompt_list[2].substring(3);
+
+    if (answer.startsWith("wer: ")) {
+      answer = prompt_list[2].substring(8);
+    }
+
+    const question_data = {
+      tag: tag,
+      level: level,
+      question: question,
+      choices: choices,
+      answer: answer,
+      status: "pending",
+      revised: false,
+    };
+
+    try {
+      await mongo.database.collection("questions").insertOne(question_data);
+    } catch (e) {
+      console.log(e.toString());
+    }
+  }
   return "Questions created!";
 }
 
-function getQuestionsByTag(tag, callback) {
-  let questions = mongo_db
-    .collection("questions")
-    .find({ tag })
-    .toArray(callback);
-  return "Got them!";
+async function getQuestionsByTag(tag) {
+  try {
+    let questions = await mongo.database
+      .collection("questions")
+      .find({ tag })
+      .toArray();
+
+    let questionsString = JSON.stringify(questions);
+    return questionsString;
+  } catch (e) {
+    console.error(e);
+    return "Error retrieving questions.";
+  }
 }
 
-function getQuestionById(id, dbo, callback) {
-  dbo.collection("questions").findOne({ id }, callback);
-  return "Got it!";
+async function getQuestionById(id) {
+  try {
+    let question = await mongo.database
+      .collection("questions")
+      .findOne({ id })
+      .toArray();
+
+    let questionString = JSON.stringify(question);
+    return questionString;
+  } catch (e) {
+    console.error(e);
+    return "Error retrieving questions.";
+  }
 }
 
-function getAllQuestions(dbo, callback) {
-  dbo.collection("questions").find({}).toArray(callback);
-  return "Got them!";
+async function getAllQuestions() {
+  try {
+    let questions = await mongo.database
+      .collection("questions")
+      .find({})
+      .toArray();
+
+    let questionsString = JSON.stringify(questions);
+    return questionsString;
+  } catch (e) {
+    console.error(e);
+    return "Error retrieving questions.";
+  }
 }
 
-function deleteQuestion(id, dbo, callback) {
-  dbo.collection("questions").deleteOne({ id }, callback);
-  return "Deleted question!";
+async function deleteQuestion(id) {
+  try {
+    await mongo.database.collection("questions").deleteOne({ id });
+    return "Deleted question!";
+  } catch (e) {
+    console.error(e);
+    return "Error deleting question";
+  }
 }
 
-function deleteAllQuestions(dbo, callback) {
-  dbo.collection("questions").deleteMany({}, callback);
-  return "Deleted questions!";
+async function deleteAllQuestions() {
+  try {
+    await mongo.database.collection("questions").deleteMany({});
+    return "Deleted questions!";
+  } catch (e) {
+    console.error(e);
+    return "Error deleting questions";
+  }
 }
 
-function setQuestionsStatusByTag(tag, status, dbo, callback) {
-  dbo
-    .collection("questions")
-    .updateMany({ tag }, { $set: { status } }, callback);
-  return "Set questions!";
+async function setQuestionsStatusByTag(tag, status) {
+  try {
+    await mongo.database
+      .collection("questions")
+      .updateMany({ tag }, { $set: { status } });
+    return "Set questions!";
+  } catch (e) {
+    console.error(e);
+    return "Error setting questions";
+  }
 }
 
-function setQuestionStatusById(id, status, dbo, callback) {
-  dbo.collection("questions").updateOne({ id }, { $set: { status } }, callback);
-  return "Set question!";
+async function setQuestionStatusById(id, status) {
+  try {
+    await mongo.database
+      .collection("questions")
+      .updateOne({ id }, { $set: { status } });
+    return "Set question!";
+  } catch (e) {
+    console.error(e);
+    return "Error setting question";
+  }
 }
 
-function setAllQuestionsStatus(status, dbo, callback) {
-  dbo.collection("questions").updateMany({}, { $set: { status } }, callback);
-  return "Set questions!";
+async function setAllQuestionsStatus(status) {
+  try {
+    await mongo.database
+      .collection("questions")
+      .updateMany({}, { $set: { status } });
+    return "Set questions!";
+  } catch (e) {
+    console.error(e);
+    return "Error setting questions";
+  }
 }
 
 function displayCommandDescriptions() {
   return "Descriptions!";
-  // Implement your own descriptions of the above commands here.
 }
 
 module.exports = {
