@@ -20,3 +20,5 @@ async function runResponse() {
   const result = await openai.createChatCompletion(payload);
   return result.data.choices.shift().message;
 }
+
+module.exports = runResponse();
