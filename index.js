@@ -1,1 +1,1 @@
-import "./src/app/message.js";
+require("./src/app/message.js");
