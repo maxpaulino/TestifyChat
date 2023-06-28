@@ -22,8 +22,8 @@ async function connectToMongoDB() {
 
 connectToMongoDB();
 
-const database = client.db("Questions");
+const mongodb = client.db("Questions");
 
-export default database;
+module.exports = mongodb;
 
 // Solid
