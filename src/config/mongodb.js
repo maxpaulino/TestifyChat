@@ -1,26 +1,28 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 require("dotenv").config();
 
-const uri =
-  "mongodb+srv://maxpaulino:" +
-  process.env.MONGODB_PASSWORD +
-  "@testify.mgathan.mongodb.net/?retryWrites=true&w=majority";
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const uri = process.env.CONNECTION_STRING;
 
 const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
 });
 
-async function connectToMongoDB() {
+async function main() {
   try {
+    // Connect to the MongoDB cluster
     await client.connect();
-    console.log("Connected to MongoDB successfully");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    console.log("we got this far");
+  } catch (e) {
+    console.error(e);
   }
 }
 
-connectToMongoDB();
+main();
 
 const mongodb = client.db("Questions");
 
