@@ -25,3 +25,5 @@ connectToMongoDB();
 const database = client.db("Questions");
 
 module.exports = database;
+
+// Solid
