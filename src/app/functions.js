@@ -1,207 +1,73 @@
-const {
-  createQuestion,
-  createQuestions,
-  getQuestionByTag,
-  getQuestionById,
-  getAllQuestions,
-  deleteQuestion,
-  deleteAllQuestions,
-  setQuestionsStatusByTag,
-  setQuestionStatusById,
-  setAllQuestionsStatus,
-  displayCommandDescriptions,
-} = require("./src/app/mongo_list");
+const mongo_client = require("./src/config/mongodb");
 
-const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
+function createQuestion(id, tag, level, dbo, callback) {
+  const question = { id, tag, level, status: "pending" };
+  dbo.collection("questions").insertOne(question, callback);
+  return "Question created!";
+}
 
-const availableFunctions = [
-  {
-    function: createQuestion,
-    schema: {
-      name: "createQuestion",
-      description: "Creates one question given a tag and a level",
-      parameters: {
-        type: "object",
-        properties: {
-          tag: {
-            type: "string",
-            description: "Tag of the question",
-          },
-          level: {
-            type: "string",
-            enum: levels,
-            description: "Level of the question",
-          },
-        },
-      },
-      required: ["tag", "level"],
-    },
-  },
-  {
-    function: createQuestions,
-    schema: {
-      name: "createQuestions",
-      descriptions: "Creates questions given a tag and a level",
-      parameters: {
-        type: "object",
-        properties: {
-          tag: {
-            type: "string",
-            description: "Tag of the questions",
-          },
-          level: {
-            type: "string",
-            enum: levels,
-            description: "Level of the questions",
-          },
-          number: {
-            type: "integer",
-            description: "Number of questions to be created",
-          },
-        },
-      },
-      required: ["tag", "level", "number"],
-    },
-  },
-  {
-    function: getQuestionByTag,
-    schema: {
-      name: "getQuestionByTag",
-      description: "Gets all of the questions given a specific tag",
-      parameters: {
-        type: "object",
-        properties: {
-          tag: {
-            type: "string",
-            description: "Tag of the questions you want to get",
-          },
-        },
-      },
-      required: ["tag"],
-    },
-  },
-  {
-    function: getQuestionById,
-    schema: {
-      name: "getQuestionById",
-      description: "Gets a question of a particular ID",
-      parameters: {
-        type: "object",
-        properties: {
-          id: {
-            type: "string",
-            description: "ID of the question",
-          },
-        },
-      },
-      required: ["id"],
-    },
-  },
-  {
-    function: getAllQuestions,
-    schema: {
-      name: "getAllQuestions",
-      description: "Gets all questions",
-      parameters: { type: "object", properties: {} },
-    },
-  },
-  {
-    function: deleteQuestion,
-    schema: {
-      name: "deleteQuestion",
-      description: "Deletes a question of a particular ID",
-      parameters: {
-        type: "object",
-        properties: {
-          id: {
-            type: "string",
-            description: "ID of the question",
-          },
-        },
-      },
-      required: ["id"],
-    },
-  },
-  {
-    function: deleteAllQuestions,
-    schema: {
-      name: "deleteAllQuestions",
-      description: "Deletes all of the questions",
-      parameters: { type: "object", properties: {} },
-    },
-  },
-  {
-    function: setQuestionsStatusByTag,
-    schema: {
-      name: "setQuestionsStatusByTag",
-      description:
-        "Sets all questions with a specific tag to either 'approved' or 'denied'.",
-      parameters: {
-        type: "object",
-        properties: {
-          tag: {
-            type: "string",
-            description: "Tag of the questions",
-          },
-          status: {
-            type: "string",
-            enum: ["approved", "denied"],
-            description: "Status of the questions",
-          },
-        },
-      },
-      required: ["status", "tag"],
-    },
-  },
-  {
-    function: setQuestionStatusById,
-    schema: {
-      name: "setQuestionStatusById",
-      description:
-        "Sets question with a specific ID to either 'approved' or 'denied'.",
-      parameters: {
-        type: "object",
-        properties: {
-          id: {
-            type: "string",
-            description: "ID of the question",
-          },
-          status: {
-            type: "string",
-            enum: ["approved", "denied"],
-            description: "Status of the questions",
-          },
-        },
-      },
-      required: ["status", "id"],
-    },
-  },
-  {
-    function: setAllQuestionsStatus,
-    schema: {
-      name: "setAllQuestionsStatus",
-      description: "Sets all questions to either 'approved' or 'denied'.",
-      parameters: {
-        type: "object",
-        properties: {
-          status: {
-            type: "string",
-            enum: ["approved", "denied"],
-            description: "Status of the questions",
-          },
-        },
-      },
-      required: ["status"],
-    },
-  },
-  {
-    function: displayCommandDescriptions,
-    schema: {
-      name: "displayCommandDescriptions",
-      description: "Display all of the command descriptions",
-      parameters: { type: "object", properties: {} },
-    },
-  },
-];
+function createQuestions(questions, dbo, callback) {
+  dbo.collection("questions").insertMany(questions, callback);
+  return "Questions created!";
+}
 
-module.exports = availableFunctions;
+function getQuestionsByTag(tag, dbo, callback) {
+  dbo.collection("questions").find({ tag }).toArray(callback);
+  return "Got them!";
+}
+
+function getQuestionById(id, dbo, callback) {
+  dbo.collection("questions").findOne({ id }, callback);
+  return "Got it!";
+}
+
+function getAllQuestions(dbo, callback) {
+  dbo.collection("questions").find({}).toArray(callback);
+  return "Got them!";
+}
+
+function deleteQuestion(id, dbo, callback) {
+  dbo.collection("questions").deleteOne({ id }, callback);
+  return "Deleted question!";
+}
+
+function deleteAllQuestions(dbo, callback) {
+  dbo.collection("questions").deleteMany({}, callback);
+  return "Deleted questions!";
+}
+
+function setQuestionsStatusByTag(tag, status, dbo, callback) {
+  dbo
+    .collection("questions")
+    .updateMany({ tag }, { $set: { status } }, callback);
+  return "Set questions!";
+}
+
+function setQuestionStatusById(id, status, dbo, callback) {
+  dbo.collection("questions").updateOne({ id }, { $set: { status } }, callback);
+  return "Set question!";
+}
+
+function setAllQuestionsStatus(status, dbo, callback) {
+  dbo.collection("questions").updateMany({}, { $set: { status } }, callback);
+  return "Set questions!";
+}
+
+function displayCommandDescriptions() {
+  return "Descriptions!";
+  // Implement your own descriptions of the above commands here.
+}
+
+module.exports = {
+  createQuestion: createQuestion,
+  createQuestions: createQuestions,
+  getQuestionsByTag: getQuestionsByTag,
+  getQuestionById: getQuestionById,
+  getAllQuestions: getAllQuestions,
+  deleteQuestion: deleteQuestion,
+  deleteAllQuestions: deleteAllQuestions,
+  setQuestionsStatusByTag: setQuestionsStatusByTag,
+  setQuestionStatusById: setQuestionStatusById,
+  setAllQuestionsStatus: setAllQuestionsStatus,
+  displayCommandDescriptions: displayCommandDescriptions,
+};
