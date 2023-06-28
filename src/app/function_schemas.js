@@ -1,22 +1,10 @@
-import {
-  createQuestion,
-  createQuestions,
-  getQuestionByTag,
-  getQuestionById,
-  getAllQuestions,
-  deleteQuestion,
-  deleteAllQuestions,
-  setQuestionsStatusByTag,
-  setQuestionStatusById,
-  setAllQuestionsStatus,
-  displayCommandDescriptions,
-} from "./src/app/functions";
+const functions = require("./src/app/functions");
 
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 const availableFunctions = [
   {
-    function: createQuestion,
+    function: functions.createQuestion,
     schema: {
       name: "createQuestion",
       description: "Creates one question given a tag and a level",
@@ -38,7 +26,7 @@ const availableFunctions = [
     },
   },
   {
-    function: createQuestions,
+    function: functions.createQuestions,
     schema: {
       name: "createQuestions",
       descriptions: "Creates questions given a tag and a level",
@@ -64,7 +52,7 @@ const availableFunctions = [
     },
   },
   {
-    function: getQuestionByTag,
+    function: functions.getQuestionByTag,
     schema: {
       name: "getQuestionByTag",
       description: "Gets all of the questions given a specific tag",
@@ -81,7 +69,7 @@ const availableFunctions = [
     },
   },
   {
-    function: getQuestionById,
+    function: functions.getQuestionById,
     schema: {
       name: "getQuestionById",
       description: "Gets a question of a particular ID",
@@ -98,7 +86,7 @@ const availableFunctions = [
     },
   },
   {
-    function: getAllQuestions,
+    function: functions.getAllQuestions,
     schema: {
       name: "getAllQuestions",
       description: "Gets all questions",
@@ -106,7 +94,7 @@ const availableFunctions = [
     },
   },
   {
-    function: deleteQuestion,
+    function: functions.deleteQuestion,
     schema: {
       name: "deleteQuestion",
       description: "Deletes a question of a particular ID",
@@ -123,7 +111,7 @@ const availableFunctions = [
     },
   },
   {
-    function: deleteAllQuestions,
+    function: functions.deleteAllQuestions,
     schema: {
       name: "deleteAllQuestions",
       description: "Deletes all of the questions",
@@ -131,7 +119,7 @@ const availableFunctions = [
     },
   },
   {
-    function: setQuestionsStatusByTag,
+    function: functions.setQuestionsStatusByTag,
     schema: {
       name: "setQuestionsStatusByTag",
       description:
@@ -154,7 +142,7 @@ const availableFunctions = [
     },
   },
   {
-    function: setQuestionStatusById,
+    function: functions.setQuestionStatusById,
     schema: {
       name: "setQuestionStatusById",
       description:
@@ -177,7 +165,7 @@ const availableFunctions = [
     },
   },
   {
-    function: setAllQuestionsStatus,
+    function: functions.setAllQuestionsStatus,
     schema: {
       name: "setAllQuestionsStatus",
       description: "Sets all questions to either 'approved' or 'denied'.",
@@ -195,7 +183,7 @@ const availableFunctions = [
     },
   },
   {
-    function: displayCommandDescriptions,
+    function: functions.displayCommandDescriptions,
     schema: {
       name: "displayCommandDescriptions",
       description: "Display all of the command descriptions",

@@ -1,5 +1,5 @@
 const openai = require(".src/config/openai");
-const functions = require(".src/app/functions");
+const function_schemas = require(".src/app/function_schemas");
 
 async function runResponse(history) {
   const payload = {
@@ -12,7 +12,7 @@ async function runResponse(history) {
       },
       ...history,
     ],
-    functions: functions.map((func) => func.schema),
+    functions: function_schemas.map((func) => func.schema),
   };
 
   const result = await openai.createChatCompletion(payload);
