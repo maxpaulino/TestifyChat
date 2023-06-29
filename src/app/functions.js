@@ -34,13 +34,14 @@ async function createQuestion(args) {
     status: "pending",
     revised: false,
   };
+  console.log(question_data);
 
   try {
-    await mongodb.database.collection("questions").insertOne(question_data);
+    await mongodb.insertOne(question_data);
     return "Question created!";
     // Consider adding description of the question
   } catch (e) {
-    return e.toString();
+    console.log(e.toString());
   }
 }
 
@@ -82,7 +83,8 @@ async function createQuestions(args) {
     };
 
     try {
-      await mongodb.database.collection("questions").insertOne(question_data);
+      await mongodb.insertOne(question_data);
+      return "Question added!";
     } catch (e) {
       console.log(e.toString());
     }
