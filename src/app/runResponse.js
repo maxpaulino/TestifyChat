@@ -1,21 +1,26 @@
 const openai = require("../config/openai.js");
-// const function_schemas = require("./function_schemas.js");
+const function_schemas = require("./function_schemas.js");
 
 let runResponse = async (history) => {
-  const completion = await openai.createChatCompletion({
+  const payload = {
     model: "gpt-3.5-turbo-0613",
     messages: [
       {
         role: "system",
         content:
-          "You are a chat assistant that helps people with their to-do list.",
+          "You are a chat assistant that helps people generate exam questions.",
       },
       ...history,
     ],
-    // functions: function_schemas.map((func) => func.schema),
-  });
+    functions: function_schemas.map((func) => func.schema),
+  };
 
-  return completion.data.choices[0].message.content;
+  const completion = await openai.createChatCompletion(payload);
+  console.log("Completion response:");
+  console.log(completion.data.choices[0].message);
+  return completion.data.choices[0].message;
 };
 
 module.exports = runResponse;
+
+// functions: function_schemas.map((func) => func.schema),
