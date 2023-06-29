@@ -5,10 +5,12 @@ const runResponse = require("./runResponse.js");
 var history = [];
 
 function callFunction(function_call) {
+  // Find function where a the function_schema name is equal to the function_call name.
   const func = function_schemas.find(
     (func) => func.schema.name === function_call.name
   );
   const args = JSON.parse(function_call.arguments);
+  console.log(args);
   return func.function(args);
 }
 
