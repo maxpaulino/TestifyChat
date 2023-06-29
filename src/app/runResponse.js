@@ -22,5 +22,3 @@ let runResponse = async (history) => {
 };
 
 module.exports = runResponse;
-
-// functions: function_schemas.map((func) => func.schema),
