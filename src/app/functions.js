@@ -1,12 +1,14 @@
 const mongodb = require("../config/mongodb.js");
 const runGeneration = require("./runGeneration.js");
 
-async function createQuestion(tag, level) {
+async function createQuestion(args) {
+  const level = args.level;
+  const tag = args.tag;
   let prompt_list = [];
   let ready = false;
 
   while (!ready) {
-    let result = runGeneration(tag, level);
+    let result = await runGeneration(tag, level);
     prompt_list = result.split("\n\n");
     if (prompt_list.length === 3) {
       if (prompt_list[2].length !== 4) {
@@ -42,7 +44,11 @@ async function createQuestion(tag, level) {
   }
 }
 
-async function createQuestions(tag, level, number) {
+async function createQuestions(args) {
+  const level = args.level;
+  const tag = args.tag;
+  const number = args.number;
+
   for (let i = 0; i < number; i++) {
     let prompt_list = [];
     let ready = false;
@@ -84,7 +90,8 @@ async function createQuestions(tag, level, number) {
   return "Questions created!";
 }
 
-async function getQuestionsByTag(tag) {
+async function getQuestionsByTag(args) {
+  const tag = args.tag;
   try {
     let questions = await mongodb.database
       .collection("questions")
@@ -99,7 +106,8 @@ async function getQuestionsByTag(tag) {
   }
 }
 
-async function getQuestionById(id) {
+async function getQuestionById(args) {
+  const id = args.id;
   try {
     let question = await mongodb.database
       .collection("questions")
@@ -129,7 +137,8 @@ async function getAllQuestions() {
   }
 }
 
-async function deleteQuestion(id) {
+async function deleteQuestion(args) {
+  const id = args.id;
   try {
     await mongodb.database.collection("questions").deleteOne({ id });
     return "Deleted question!";
@@ -149,7 +158,9 @@ async function deleteAllQuestions() {
   }
 }
 
-async function setQuestionsStatusByTag(tag, status) {
+async function setQuestionsStatusByTag(args) {
+  const tag = args.tag;
+  const status = args.status;
   try {
     await mongodb.database
       .collection("questions")
@@ -161,7 +172,9 @@ async function setQuestionsStatusByTag(tag, status) {
   }
 }
 
-async function setQuestionStatusById(id, status) {
+async function setQuestionStatusById(args) {
+  const id = args.id;
+  const status = args.status;
   try {
     await mongodb.database
       .collection("questions")
@@ -173,7 +186,8 @@ async function setQuestionStatusById(id, status) {
   }
 }
 
-async function setAllQuestionsStatus(status) {
+async function setAllQuestionsStatus(args) {
+  const status = args.status;
   try {
     await mongodb.database
       .collection("questions")
