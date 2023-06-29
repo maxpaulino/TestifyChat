@@ -1,6 +1,6 @@
 const whatsapp = require("../config/whatsapp.js");
 const function_schemas = require("./function_schemas.js");
-const gpt = require("./gpt.js");
+const runResponse = require("./runResponse.js");
 
 var history = [];
 
@@ -16,7 +16,8 @@ async function handlePrompt(message) {
   history.push({ role: "user", content: message });
 
   let responseText = "";
-  var response = await gpt.runResponse(history);
+
+  var response = await runResponse(history);
 
   if (response.function_call) {
     responseText = callFunction(response.function_call);
