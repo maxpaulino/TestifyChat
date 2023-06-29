@@ -18,6 +18,4 @@ let runResponse = async (history) => {
   return response.data.choices[0].message.content;
 };
 
-module.exports = {
-  runResponse,
-};
+module.exports = runResponse;

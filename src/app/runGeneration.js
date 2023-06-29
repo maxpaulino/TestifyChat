@@ -1,6 +1,6 @@
 const openai = require("../config/openai.js");
 
-async function runQuestionGeneration(tag, level) {
+async function runGeneration(tag, level) {
   var prompt =
     "Generate a multiple-choice question with 4 options and the answer. " +
     "This question should be a CEFR certified English Language Exam question at the " +
@@ -27,6 +27,4 @@ async function runQuestionGeneration(tag, level) {
   return result.data.choices.shift().message;
 }
 
-module.exports = {
-  runQuestionGeneration,
-};
+module.exports = runGeneration;

@@ -1,12 +1,12 @@
 const mongodb = require("../config/mongodb.js");
-const generation = require("./generation.js");
+const runGeneration = require("./runGeneration.js");
 
 async function createQuestion(tag, level) {
   let prompt_list = [];
   let ready = false;
 
   while (!ready) {
-    let result = generation.runQuestionGeneration(tag, level);
+    let result = runGeneration(tag, level);
     prompt_list = result.split("\n\n");
     if (prompt_list.length === 3) {
       if (prompt_list[2].length !== 4) {
@@ -48,7 +48,7 @@ async function createQuestions(tag, level, number) {
     let ready = false;
 
     while (!ready) {
-      let result = await generation.runQuestionGeneration(tag, level);
+      let result = await runGeneration(tag, level);
       prompt_list = result.split("\n\n");
       if (prompt_list.length === 3) {
         if (prompt_list[2].length !== 4) {
