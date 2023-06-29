@@ -32,7 +32,7 @@ async function createQuestion(args) {
     choices: choices,
     answer: answer,
     status: "pending",
-    revised: False,
+    revised: false,
   };
 
   try {
