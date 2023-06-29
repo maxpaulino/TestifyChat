@@ -6,6 +6,7 @@ const configuration = new Configuration({
 });
 
 const openai = new OpenAIApi(configuration);
+console.log("OpenAI Connection made!");
 
 module.exports = openai;
 

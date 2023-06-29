@@ -10,7 +10,7 @@ async function main() {
   try {
     // Connect to the MongoDB cluster
     await client.connect();
-    console.log("Connection made!");
+    console.log("MongoDB Connection made!");
   } catch (e) {
     console.error(e);
   }
