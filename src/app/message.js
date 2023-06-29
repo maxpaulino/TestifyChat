@@ -37,6 +37,6 @@ whatsapp.on("message", (message) => {
   console.log(message.body);
 
   if (message.body.startsWith("?!?")) {
-    message.reply(handlePrompt(message.text));
+    handlePrompt(message.text).then((response) => message.reply(response));
   }
 });
