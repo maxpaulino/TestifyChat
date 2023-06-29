@@ -12,26 +12,30 @@ function callFunction(function_call) {
   return func.function(args);
 }
 
+async function handlePrompt(message) {
+  history.push({ role: "user", content: message });
+
+  let responseText = "";
+  var response = await gpt.runResponse(history);
+
+  if (response.function_call) {
+    responseText = callFunction(response.function_call);
+    history.push({
+      role: "function",
+      name: response.function_call.name,
+      content: responseText,
+    });
+  } else {
+    responseText = response.content;
+    history.push({ role: "assistant", content: responseText });
+  }
+  return responseText;
+}
+
 whatsapp.on("message", (message) => {
   console.log(message.body);
 
   if (message.body.startsWith("?!?")) {
-    history.push({ role: "user", content: message.text });
-
-    let responseText = "";
-    var response = gpt.runResponse(history);
-
-    if (response.function_call) {
-      responseText = callFunction(response.function_call);
-      history.push({
-        role: "function",
-        name: response.function_call.name,
-        content: responseText,
-      });
-    } else {
-      responseText = response.content;
-      history.push({ role: "assistant", content: responseText });
-    }
-    message.reply(responseText);
+    message.reply(handlePrompt(message.text));
   }
 });
