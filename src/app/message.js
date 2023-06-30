@@ -1,8 +1,10 @@
 const whatsapp = require("../config/whatsapp.js");
 const function_schemas = require("./function_schemas.js");
 const runResponse = require("./runResponse.js");
+require("dotenv").config();
 
 var history = [];
+const phoneNumber = process.env.PHONE_NUMBER;
 
 function callFunction(function_call) {
   // Find function where a the function_schema name is equal to the function_call name.
@@ -39,7 +41,7 @@ async function handlePrompt(message) {
 whatsapp.on("message", (message) => {
   console.log(message.body);
 
-  if (message.body.startsWith("?!?")) {
+  if (message.body.startsWith("?!?") && message.from === phoneNumber) {
     handlePrompt(message.body).then((response) => message.reply(response));
   }
 });
