@@ -1,5 +1,6 @@
 const {
   createQuestions,
+  getTags,
   deleteQuestion,
   deleteAllQuestions,
   setAllQuestionsStatus,
@@ -83,6 +84,15 @@ const availableFunctions = [
       parameters: { type: "object", properties: {} },
     },
   },
+  {
+    function: getTags,
+    schema: {
+      name: "getTags",
+      description: "Get all tags",
+      parameters: { type: "object", properties: {} },
+    },
+  },
+
   {
     function: deleteQuestion,
     schema: {

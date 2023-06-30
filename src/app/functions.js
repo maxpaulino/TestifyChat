@@ -55,6 +55,16 @@ async function createQuestions(args) {
   );
 }
 
+async function getTags() {
+  try {
+    let tags = await mongodb.distinct("tag");
+    return tags.join(", ");
+  } catch (e) {
+    console.error(e);
+    return "Error retrieving tags.";
+  }
+}
+
 async function getQuestionsByTag(args) {
   const tag = args.tag;
 
@@ -180,7 +190,7 @@ async function setQuestionStatusById(args) {
   const id = args.id;
   const status = args.status;
   try {
-    await mongodb.updateOne({ id }, { $set: { status } });
+    await mongodb.updateOne({ id }, { $set: { status, revised: true } });
     return "Set question!";
   } catch (e) {
     console.error(e);
@@ -214,4 +224,5 @@ module.exports = {
   deleteQuestion: deleteQuestion,
   deleteAllQuestions: deleteAllQuestions,
   displayCommandDescriptions: displayCommandDescriptions,
+  getTags: getTags,
 };
