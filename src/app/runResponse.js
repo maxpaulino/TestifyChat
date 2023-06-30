@@ -16,8 +16,6 @@ let runResponse = async (history) => {
   };
 
   const completion = await openai.createChatCompletion(payload);
-  console.log("Completion response:");
-  console.log(completion.data.choices[0].message);
   return completion.data.choices[0].message;
 };
 

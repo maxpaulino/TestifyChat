@@ -18,7 +18,6 @@ async function runGeneration(tag, level) {
   };
 
   const result = await openai.createChatCompletion(payload);
-  console.log(result.data.choices[0].message.content);
   return result.data.choices[0].message.content;
 }
 

@@ -12,6 +12,7 @@ function callFunction(function_call) {
     (func) => func.schema.name === function_call.name
   );
   const args = JSON.parse(function_call.arguments);
+  console.log("Arguments:");
   console.log(args);
   return func.function(args);
 }
@@ -23,48 +24,48 @@ async function handlePrompt(message) {
   };
 
   history.push(messageJSON);
-  console.log("Pushed to user message to history.");
+  console.log("User message:");
   console.log(messageJSON);
 
   let responseText = "";
 
-  console.log("Running runResponse()");
   var response = await runResponse(history);
 
   if (response.function_call) {
-    console.log(
-      "This response is a function_call: " + response.function_call.name
-    );
     responseText = await callFunction(response.function_call);
-    if (responseText === "") {
-      history.push({
-        role: "assistant",
-        content: "I don't understand what you are asking from me.",
-      });
-      console.log("Pushed unclear prompt to history");
-      return "I don't understand what you are asking from me.";
-    }
-    history.push({
+    let function_response = {
       role: "function",
       name: response.function_call.name,
       content: responseText,
-    });
-    console.log(`Pushed ${response.function_call.name} to history.`);
-    console.log(history);
+    };
+    history.push(function_response);
+    console.log("Function response:");
+    console.log(function_response);
   } else {
-    console.log("This response is a regular completion.");
     responseText = response.content;
-    history.push({ role: "assistant", content: responseText });
-    console.log("Pushed response to history.");
+    let assistant_response = {
+      role: "assistant",
+      content: responseText,
+    };
+    history.push(assistant_response);
+    console.log("Assistant response:");
+    console.log(assistant_response);
   }
   return responseText;
 }
 
 whatsapp.on("message", (message) => {
   console.log(message.body);
-
   if (message.from === phoneNumber) {
-    console.log("Number approved!");
     handlePrompt(message.body).then((response) => message.reply(response));
   }
 });
+
+// if (responseText === "") {
+//   history.push({
+//     role: "assistant",
+//     content: "I don't understand what you are asking from me.",
+//   });
+//   console.log("Pushed unclear prompt to history");
+//   return "I don't understand what you are asking from me.";
+// }
