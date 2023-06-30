@@ -1,5 +1,4 @@
 const {
-  createQuestion,
   createQuestions,
   deleteQuestion,
   deleteAllQuestions,

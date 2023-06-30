@@ -41,7 +41,7 @@ async function createQuestions(args) {
 
     try {
       const result = await mongodb.insertOne(question_data);
-      question_ids.concat(result.insertedId.toString() + " ");
+      question_ids.concat(result.insertedId.toString() + ", ");
     } catch (e) {
       console.log(e.toString());
     }
@@ -52,13 +52,12 @@ async function createQuestions(args) {
   );
 }
 
+// Think about making the string prettier later.
 async function getQuestionsByTag(args) {
   const tag = args.tag;
+
   try {
-    let questions = await mongodb.database
-      .collection("questions")
-      .find({ tag })
-      .toArray();
+    let questions = await mongodb.find({ tag }).toArray();
 
     let questionsString = JSON.stringify(questions);
     return questionsString;
@@ -68,13 +67,11 @@ async function getQuestionsByTag(args) {
   }
 }
 
+// Think about making the string prettier later.
 async function getQuestionById(args) {
   const id = args.id;
   try {
-    let question = await mongodb.database
-      .collection("questions")
-      .findOne({ id })
-      .toArray();
+    let question = await mongodb.findOne({ id }).toArray();
 
     let questionString = JSON.stringify(question);
     return questionString;
@@ -84,12 +81,10 @@ async function getQuestionById(args) {
   }
 }
 
+// Think about making the string prettier later.
 async function getAllQuestions() {
   try {
-    let questions = await mongodb.database
-      .collection("questions")
-      .find({})
-      .toArray();
+    let questions = await mongodb.find({}).toArray();
 
     let questionsString = JSON.stringify(questions);
     return questionsString;
@@ -102,7 +97,7 @@ async function getAllQuestions() {
 async function deleteQuestion(args) {
   const id = args.id;
   try {
-    await mongodb.database.collection("questions").deleteOne({ id });
+    await mongodb.deleteOne({ id });
     return "Deleted question!";
   } catch (e) {
     console.error(e);
@@ -112,7 +107,7 @@ async function deleteQuestion(args) {
 
 async function deleteAllQuestions() {
   try {
-    await mongodb.database.collection("questions").deleteMany({});
+    await mongodb.deleteMany({});
     return "Deleted questions!";
   } catch (e) {
     console.error(e);
@@ -124,9 +119,7 @@ async function setQuestionsStatusByTag(args) {
   const tag = args.tag;
   const status = args.status;
   try {
-    await mongodb.database
-      .collection("questions")
-      .updateMany({ tag }, { $set: { status } });
+    await mongodb.updateMany({ tag }, { $set: { status } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
@@ -138,9 +131,7 @@ async function setQuestionStatusById(args) {
   const id = args.id;
   const status = args.status;
   try {
-    await mongodb.database
-      .collection("questions")
-      .updateOne({ id }, { $set: { status } });
+    await mongodb.updateOne({ id }, { $set: { status } });
     return "Set question!";
   } catch (e) {
     console.error(e);
@@ -151,9 +142,7 @@ async function setQuestionStatusById(args) {
 async function setAllQuestionsStatus(args) {
   const status = args.status;
   try {
-    await mongodb.database
-      .collection("questions")
-      .updateMany({}, { $set: { status } });
+    await mongodb.updateMany({}, { $set: { status } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
@@ -162,11 +151,10 @@ async function setAllQuestionsStatus(args) {
 }
 
 function displayCommandDescriptions() {
-  return "Descriptions!";
+  return "Feel free to create, get, set, or delete questions!";
 }
 
 module.exports = {
-  createQuestion: createQuestion,
   createQuestions: createQuestions,
   getAllQuestions: getAllQuestions,
   getQuestionById: getQuestionById,
