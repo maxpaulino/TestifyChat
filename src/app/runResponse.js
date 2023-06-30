@@ -8,7 +8,7 @@ let runResponse = async (history) => {
       {
         role: "system",
         content:
-          "You are a chat assistant that helps people generate exam questions.",
+          "You are a chat assistant that helps people generate and analyze exam questions.",
       },
       ...history,
     ],
