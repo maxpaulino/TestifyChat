@@ -18,22 +18,22 @@ const availableFunctions = [
     function: createQuestions,
     schema: {
       name: "createQuestions",
-      descriptions: "Creates questions given a tag and a level",
+      descriptions: "Create a question given a tag, level, and a number",
       parameters: {
         type: "object",
         properties: {
           tag: {
             type: "string",
-            description: "Tag of the questions",
+            description: "The tag of the questions, e.g. Cars",
           },
           level: {
             type: "string",
             enum: levels,
-            description: "Level of the questions",
+            description: "The level of the questions",
           },
           number: {
             type: "integer",
-            description: "Number of questions to be created",
+            description: "The number of questions to be created",
           },
         },
       },
@@ -44,13 +44,13 @@ const availableFunctions = [
     function: getQuestionsByTag,
     schema: {
       name: "getQuestionsByTag",
-      description: "Gets all of the questions given a specific tag",
+      description: "Get the questions given a specific tag",
       parameters: {
         type: "object",
         properties: {
           tag: {
             type: "string",
-            description: "Tag of the questions you want to get",
+            description: "The tag of the questions you want to get, e.g. Cars",
           },
         },
       },
@@ -61,13 +61,14 @@ const availableFunctions = [
     function: getQuestionById,
     schema: {
       name: "getQuestionById",
-      description: "Gets a question of a particular ID",
+      description: "Get a question of a particular ID",
       parameters: {
         type: "object",
         properties: {
           id: {
             type: "string",
-            description: "ID of the question",
+            description:
+              "The ID of the question, e.g. 649e4077b7795297e8c82972",
           },
         },
       },
@@ -78,7 +79,7 @@ const availableFunctions = [
     function: getAllQuestions,
     schema: {
       name: "getAllQuestions",
-      description: "Gets all questions",
+      description: "Get all questions",
       parameters: { type: "object", properties: {} },
     },
   },
@@ -86,13 +87,14 @@ const availableFunctions = [
     function: deleteQuestion,
     schema: {
       name: "deleteQuestion",
-      description: "Deletes a question of a particular ID",
+      description: "Delete a question of a particular ID",
       parameters: {
         type: "object",
         properties: {
           id: {
             type: "string",
-            description: "ID of the question",
+            description:
+              "The ID of the question, e.g. 649e4077b7795297e8c82972",
           },
         },
       },
@@ -103,7 +105,7 @@ const availableFunctions = [
     function: deleteAllQuestions,
     schema: {
       name: "deleteAllQuestions",
-      description: "Deletes all of the questions",
+      description: "Delete all of the questions",
       parameters: { type: "object", properties: {} },
     },
   },
@@ -112,18 +114,19 @@ const availableFunctions = [
     schema: {
       name: "setQuestionsStatusByTag",
       description:
-        "Sets all questions with a specific tag to either 'approved' or 'denied'.",
+        "Set all questions with a specific tag to either 'approved' or 'denied'.",
       parameters: {
         type: "object",
         properties: {
           tag: {
             type: "string",
-            description: "Tag of the questions",
+            description: "The tag of the questions, e.g. Cars",
           },
           status: {
             type: "string",
             enum: ["approved", "denied"],
-            description: "Status of the questions",
+            description:
+              "The status of the questions, either 'approved' or 'denied'.",
           },
         },
       },
@@ -135,18 +138,20 @@ const availableFunctions = [
     schema: {
       name: "setQuestionStatusById",
       description:
-        "Sets question with a specific ID to either 'approved' or 'denied'.",
+        "Set question with a specific ID to either 'approved' or 'denied'.",
       parameters: {
         type: "object",
         properties: {
           id: {
             type: "string",
-            description: "ID of the question",
+            description:
+              "The ID of the question, e.g. 649e4077b7795297e8c82972",
           },
           status: {
             type: "string",
             enum: ["approved", "denied"],
-            description: "Status of the questions",
+            description:
+              "The status of the questions, either 'approved' or 'denied'.",
           },
         },
       },
@@ -157,14 +162,15 @@ const availableFunctions = [
     function: setAllQuestionsStatus,
     schema: {
       name: "setAllQuestionsStatus",
-      description: "Sets all questions to either 'approved' or 'denied'.",
+      description: "Set all questions to either 'approved' or 'denied'.",
       parameters: {
         type: "object",
         properties: {
           status: {
             type: "string",
             enum: ["approved", "denied"],
-            description: "Status of the questions",
+            description:
+              "The status of the questions, either 'approved' or 'denied'.",
           },
         },
       },
