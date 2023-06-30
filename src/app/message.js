@@ -36,6 +36,14 @@ async function handlePrompt(message) {
       "This response is a function_call: " + response.function_call.name
     );
     responseText = await callFunction(response.function_call);
+    if (responseText === "") {
+      history.push({
+        role: "assistant",
+        content: "I don't understand what you are asking from me.",
+      });
+      console.log("Pushed unclear prompt to history");
+      return "I don't understand what you are asking from me.";
+    }
     history.push({
       role: "function",
       name: response.function_call.name,
