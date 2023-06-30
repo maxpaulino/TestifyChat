@@ -21,7 +21,6 @@ async function handlePrompt(message) {
 
   let responseText = "";
 
-  console.log("about to runResponse with history");
   var response = await runResponse(history);
 
   if (response.function_call) {

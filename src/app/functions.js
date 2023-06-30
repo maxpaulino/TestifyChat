@@ -6,10 +6,11 @@ async function createQuestions(args) {
   const tag = args.tag;
   const number = args.number;
 
+  var question_ids = "";
+
   for (let i = 0; i < number; i++) {
     let prompt_list = [];
     let ready = false;
-    let question_ids = "";
 
     while (!ready) {
       let result = await runGeneration(tag, level);
