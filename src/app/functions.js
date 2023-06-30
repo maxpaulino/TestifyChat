@@ -178,7 +178,7 @@ async function setQuestionsStatusByTag(args) {
   const tag = args.tag;
   const status = args.status;
   try {
-    await mongodb.updateMany({ tag }, { $set: { status } });
+    await mongodb.updateMany({ tag }, { $set: { status, revised: true } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
@@ -201,7 +201,7 @@ async function setQuestionStatusById(args) {
 async function setAllQuestionsStatus(args) {
   const status = args.status;
   try {
-    await mongodb.updateMany({}, { $set: { status } });
+    await mongodb.updateMany({}, { $set: { status, revised: true } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
