@@ -17,8 +17,14 @@ function callFunction(function_call) {
 }
 
 async function handlePrompt(message) {
-  history.push({ role: "user", content: message });
+  messageJSON = {
+    role: "user",
+    content: message,
+  };
+
+  history.push(messageJSON);
   console.log("Pushed to user message to history.");
+  console.log(messageJSON);
 
   let responseText = "";
 
@@ -29,13 +35,14 @@ async function handlePrompt(message) {
     console.log(
       "This response is a function_call: " + response.function_call.name
     );
-    responseText = callFunction(response.function_call);
+    responseText = await callFunction(response.function_call);
     history.push({
       role: "function",
       name: response.function_call.name,
       content: responseText,
     });
     console.log(`Pushed ${response.function_call.name} to history.`);
+    console.log(history);
   } else {
     console.log("This response is a regular completion.");
     responseText = response.content;
