@@ -1,50 +1,6 @@
 const mongodb = require("../config/mongodb.js");
 const runGeneration = require("./runGeneration.js");
 
-async function createQuestion(args) {
-  const level = args.level;
-  const tag = args.tag;
-  let prompt_list = [];
-  let ready = false;
-
-  while (!ready) {
-    let result = await runGeneration(tag, level);
-    prompt_list = result.split("\n\n");
-    if (prompt_list.length === 3) {
-      if (prompt_list[2].length !== 4) {
-        ready = true;
-      }
-    }
-  }
-
-  let question = prompt_list[0].substring(3);
-  let choices = prompt_list[1].split("\n");
-  let answer = prompt_list[2].substring(3);
-
-  if (answer.startsWith("wer: ")) {
-    answer = prompt_list[2].substring(8);
-  }
-
-  const question_data = {
-    tag: tag,
-    level: level,
-    question: question,
-    choices: choices,
-    answer: answer,
-    status: "pending",
-    revised: false,
-  };
-  console.log(question_data);
-
-  try {
-    const result = await mongodb.insertOne(question_data);
-
-    return `Question ID ${result.insertedId.toString()} has been added to the database.`;
-  } catch (e) {
-    console.log(e.toString());
-  }
-}
-
 async function createQuestions(args) {
   const level = args.level;
   const tag = args.tag;

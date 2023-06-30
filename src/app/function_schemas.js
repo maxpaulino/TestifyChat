@@ -16,28 +16,6 @@ const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 const availableFunctions = [
   {
-    function: createQuestion,
-    schema: {
-      name: "createQuestion",
-      description: "Creates one question given a tag and a level",
-      parameters: {
-        type: "object",
-        properties: {
-          tag: {
-            type: "string",
-            description: "Tag of the question",
-          },
-          level: {
-            type: "string",
-            enum: levels,
-            description: "Level of the question",
-          },
-        },
-      },
-      required: ["tag", "level"],
-    },
-  },
-  {
     function: createQuestions,
     schema: {
       name: "createQuestions",
