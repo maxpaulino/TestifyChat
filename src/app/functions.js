@@ -52,42 +52,88 @@ async function createQuestions(args) {
   );
 }
 
-// Think about making the string prettier later.
 async function getQuestionsByTag(args) {
   const tag = args.tag;
 
   try {
     let questions = await mongodb.find({ tag }).toArray();
 
-    let questionsString = JSON.stringify(questions);
-    return questionsString;
+    // Format the answers into a string
+    const formattedAnswers = questions
+      .map((question) => {
+        return `
+Question ID: ${question._id}
+Tag: ${question.tag}
+Level: ${question.level}
+Question: ${question.question}
+Choices:
+${question.choices.map((choice) => `- ${choice}`).join("\n")}
+Answer: ${question.answer}
+Status: ${question.status}
+Revised: ${question.revised}
+`;
+      })
+      .join("\n");
+
+    return formattedAnswers;
   } catch (e) {
     console.error(e);
     return "Error retrieving questions.";
   }
 }
 
-// Think about making the string prettier later.
 async function getQuestionById(args) {
-  const id = args.id;
-  try {
-    let question = await mongodb.findOne({ id }).toArray();
+  const questionId = args.id;
 
-    let questionString = JSON.stringify(question);
-    return questionString;
+  try {
+    let question = await mongodb.findOne({ _id: questionId });
+
+    if (!question) {
+      return "Question not found.";
+    }
+
+    // Format the answer into a string
+    const formattedAnswer = `
+Question ID: ${question._id}
+Tag: ${question.tag}
+Level: ${question.level}
+Question: ${question.question}
+Choices:
+${question.choices.map((choice) => `- ${choice}`).join("\n")}
+Answer: ${question.answer}
+Status: ${question.status}
+Revised: ${question.revised}
+`;
+
+    return formattedAnswer;
   } catch (e) {
     console.error(e);
-    return "Error retrieving questions.";
+    return "Error retrieving question.";
   }
 }
 
-// Think about making the string prettier later.
 async function getAllQuestions() {
   try {
-    let questions = await mongodb.find({}).toArray();
+    let questions = await mongodb.find().toArray();
 
-    let questionsString = JSON.stringify(questions);
-    return questionsString;
+    // Format the answers into a string
+    const formattedAnswers = questions
+      .map((question) => {
+        return `
+Question ID: ${question._id}
+Tag: ${question.tag}
+Level: ${question.level}
+Question: ${question.question}
+Choices:
+${question.choices.map((choice) => `- ${choice}`).join("\n")}
+Answer: ${question.answer}
+Status: ${question.status}
+Revised: ${question.revised}
+`;
+      })
+      .join("\n");
+
+    return formattedAnswers;
   } catch (e) {
     console.error(e);
     return "Error retrieving questions.";
