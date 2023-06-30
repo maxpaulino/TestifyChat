@@ -9,7 +9,6 @@ const {
   getAllQuestions,
   getQuestionById,
   getQuestionsByTag,
-  displayCommandDescriptions,
 } = require("./functions.js");
 
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -185,14 +184,6 @@ const availableFunctions = [
         },
       },
       required: ["status"],
-    },
-  },
-  {
-    function: displayCommandDescriptions,
-    schema: {
-      name: "displayCommandDescriptions",
-      description: "Display all of the command descriptions",
-      parameters: { type: "object", properties: {} },
     },
   },
 ];

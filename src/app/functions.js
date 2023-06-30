@@ -209,10 +209,6 @@ async function setAllQuestionsStatus(args) {
   }
 }
 
-function displayCommandDescriptions() {
-  return "Feel free to create, get, set, or delete questions!";
-}
-
 module.exports = {
   createQuestions: createQuestions,
   getAllQuestions: getAllQuestions,
@@ -223,6 +219,5 @@ module.exports = {
   setQuestionsStatusByTag: setQuestionsStatusByTag,
   deleteQuestion: deleteQuestion,
   deleteAllQuestions: deleteAllQuestions,
-  displayCommandDescriptions: displayCommandDescriptions,
   getTags: getTags,
 };
