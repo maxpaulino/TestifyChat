@@ -89,7 +89,7 @@ async function getQuestionById(args) {
   const questionId = args.id;
 
   try {
-    let question = await mongodb.findOne({ _id: questionId });
+    let question = await mongodb.findOne({ _id: new ObjectId(questionId) });
 
     if (!question) {
       return "Question not found.";
