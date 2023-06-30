@@ -45,7 +45,6 @@ async function createQuestions(args) {
       const result = await mongodb.insertOne(question_data);
       console.log(result.insertedId.toString());
       question_ids = question_ids.concat(`${result.insertedId.toString()}, `);
-      console.log(question_ids);
     } catch (e) {
       console.log(e.toString());
     }
