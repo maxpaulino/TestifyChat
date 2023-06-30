@@ -1,4 +1,5 @@
 const mongodb = require("../config/mongodb.js");
+const { ObjectId } = require("mongodb");
 const runGeneration = require("./runGeneration.js");
 
 async function createQuestions(args) {
@@ -6,7 +7,7 @@ async function createQuestions(args) {
   const tag = args.tag;
   const number = args.number;
 
-  var question_ids = "";
+  let question_ids = "";
 
   for (let i = 0; i < number; i++) {
     let prompt_list = [];
@@ -42,7 +43,9 @@ async function createQuestions(args) {
 
     try {
       const result = await mongodb.insertOne(question_data);
-      question_ids.concat(result.insertedId.toString() + ", ");
+      console.log(result.insertedId.toString());
+      question_ids = question_ids.concat(`${result.insertedId.toString()}, `);
+      console.log(question_ids);
     } catch (e) {
       console.log(e.toString());
     }
