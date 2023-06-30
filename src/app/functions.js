@@ -37,9 +37,9 @@ async function createQuestion(args) {
   console.log(question_data);
 
   try {
-    await mongodb.insertOne(question_data);
-    return "Question created!";
-    // Consider adding description of the question
+    const result = await mongodb.insertOne(question_data);
+
+    return `Question ID ${result.insertedId.toString()} has been added to the database.`;
   } catch (e) {
     console.log(e.toString());
   }
@@ -53,6 +53,7 @@ async function createQuestions(args) {
   for (let i = 0; i < number; i++) {
     let prompt_list = [];
     let ready = false;
+    let question_ids = "";
 
     while (!ready) {
       let result = await runGeneration(tag, level);
@@ -83,13 +84,16 @@ async function createQuestions(args) {
     };
 
     try {
-      await mongodb.insertOne(question_data);
-      return "Question added!";
+      const result = await mongodb.insertOne(question_data);
+      question_ids.concat(result.insertedId.toString() + " ");
     } catch (e) {
       console.log(e.toString());
     }
   }
-  return "Questions created!";
+  return (
+    "The following question IDs have been added to the database: " +
+    question_ids
+  );
 }
 
 async function getQuestionsByTag(args) {

@@ -41,7 +41,7 @@ async function handlePrompt(message) {
 whatsapp.on("message", (message) => {
   console.log(message.body);
 
-  if (message.body.startsWith("?!?") && message.from === phoneNumber) {
+  if (message.from === phoneNumber) {
     handlePrompt(message.body).then((response) => message.reply(response));
   }
 });
