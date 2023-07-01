@@ -1,7 +1,7 @@
 const openai = require("../config/openai.js");
 const function_schemas = require("./function_schemas.js");
 
-let runResponse = async (history) => {
+async function runResponse(history) {
   const payload = {
     model: "gpt-3.5-turbo-0613",
     messages: [
@@ -17,6 +17,6 @@ let runResponse = async (history) => {
 
   const completion = await openai.createChatCompletion(payload);
   return completion.data.choices[0].message;
-};
+}
 
 module.exports = runResponse;
