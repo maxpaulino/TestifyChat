@@ -12,7 +12,7 @@ async function runResponse(history) {
   // The 'messages' field contains the conversation history, starting with a system message that sets the behavior of the assistant.
   // The 'functions' field contains the function schemas to apply to the model.
   const payload = {
-    model: "gpt-4-32k-0613",
+    model: "gpt-4-0613",
     messages: [
       {
         role: "system",
