@@ -13,7 +13,7 @@ async function runGeneration(tag, level) {
   // The 'messages' field contains the system message that sets the behavior of the assistant, and the user message that includes the prompt.
   // The 'temperature' field controls the randomness of the AI's responses.
   const payload = {
-    model: "gpt-3.5-turbo-0613",
+    model: "gpt-4-32k-0613",
     messages: [
       {
         role: "system",
