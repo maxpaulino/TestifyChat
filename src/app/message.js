@@ -81,6 +81,7 @@ async function handlePrompt(message) {
 whatsapp.on("message", (message) => {
   // Log the content of the received message.
   console.log(message.body);
+  console.log(message.from);
   // If the message is from the phone number in the environment variables, handle the prompt and reply with the response.
   if (message.from === phoneNumber) {
     handlePrompt(message.body).then((response) => message.reply(response));
