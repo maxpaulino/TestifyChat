@@ -154,9 +154,9 @@ Revised: ${question.revised}
 }
 
 async function deleteQuestion(args) {
-  const id = args.id;
+  const id = new ObjectId(args.id);
   try {
-    await mongodb.deleteOne({ id });
+    await mongodb.deleteOne({ _id: id });
     return "Deleted question!";
   } catch (e) {
     console.error(e);
@@ -178,7 +178,7 @@ async function setQuestionsStatusByTag(args) {
   const tag = args.tag;
   const status = args.status;
   try {
-    await mongodb.updateMany({ tag }, { $set: { status, revised: true } });
+    await mongodb.updateMany({ tag }, { $set: { status: status, revised: true } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
@@ -190,7 +190,7 @@ async function setQuestionStatusById(args) {
   const id = args.id;
   const status = args.status;
   try {
-    await mongodb.updateOne({ id }, { $set: { status, revised: true } });
+    await mongodb.updateOne({ id }, { $set: { status: status, revised: true } });
     return "Set question!";
   } catch (e) {
     console.error(e);
@@ -201,7 +201,7 @@ async function setQuestionStatusById(args) {
 async function setAllQuestionsStatus(args) {
   const status = args.status;
   try {
-    await mongodb.updateMany({}, { $set: { status, revised: true } });
+    await mongodb.updateMany({}, { $set: { status: status, revised: true } });
     return "Set questions!";
   } catch (e) {
     console.error(e);
