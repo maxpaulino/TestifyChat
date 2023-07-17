@@ -190,7 +190,7 @@ async function setQuestionStatusById(args) {
   const id = args.id;
   const status = args.status;
   try {
-    await mongodb.updateOne({ id }, { $set: { status: status, revised: true } });
+    await mongodb.updateOne({ _id: new ObjectId(id) }, { $set: { status: status, revised: true } });
     return "Set question!";
   } catch (e) {
     console.error(e);
