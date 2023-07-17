@@ -4,7 +4,7 @@
 // 'runResponse' is a function used to get a response from the OpenAI API.
 // 'dotenv' is a zero-dependency module that loads environment variables from a .env file into process.env.
 const whatsapp = require("../config/whatsapp.js");
-const runResponse = require("./runResponse.js");
+const runResponse = require("./llm/runResponse.js");
 require("dotenv").config();
 
 // Get the phone number from the environment variables.

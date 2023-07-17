@@ -1,10 +1,10 @@
 // Import the required module.
 // 'openai' is an instance of OpenAIApi created elsewhere in the application and imported here.
-const openai = require("../config/openai.js");
+const openai = require("../../config/openai.js");
 
 // Define an asynchronous function 'runGeneration' which takes a 'tag' and 'level' as arguments.
 // This function generates a multiple-choice question using the OpenAI API based on the provided tag and level.
-async function runGeneration(tag, level) {
+async function runMCGeneration(tag, level) {
   // Define the prompt for the AI, specifying the tag (topic) and level for the multiple-choice question.
   var prompt = `Generate a multiple-choice question with 4 options and the answer. This question should be a Duolingo English Language question at the ${level} level and should be in relation to this topic: ${tag}. `;
 
@@ -34,4 +34,4 @@ async function runGeneration(tag, level) {
 }
 
 // Export the runGeneration function so it can be imported and used in other parts of the application.
-module.exports = runGeneration;
+module.exports = runMCGeneration;
