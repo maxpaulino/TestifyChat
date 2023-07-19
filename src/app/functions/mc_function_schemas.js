@@ -1,21 +1,21 @@
 const {
-  createQuestions,
-  getTags,
-  deleteQuestion,
-  deleteAllQuestions,
-  setAllQuestionsStatus,
-  setQuestionStatusById,
-  setQuestionsStatusByTag,
-  getAllQuestions,
-  getQuestionById,
-  getQuestionsByTag,
+  createMCQuestions,
+  getMCTags,
+  deleteMCQuestion,
+  deleteAllMCQuestions,
+  setAllMCQuestionsStatus,
+  setMCQuestionStatusById,
+  setMCQuestionsStatusByTag,
+  getAllMCQuestions,
+  getMCQuestionById,
+  getMCQuestionsByTag,
 } = require("./mc_functions.js");
 
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
-const availableFunctions = [
+const availableMCFunctions = [
   {
-    function: createQuestions,
+    function: createMCQuestions,
     schema: {
       name: "createQuestions",
       descriptions: "Create a question given a tag, level, and a number",
@@ -41,7 +41,7 @@ const availableFunctions = [
     },
   },
   {
-    function: getQuestionsByTag,
+    function: getMCQuestionsByTag,
     schema: {
       name: "getQuestionsByTag",
       description: "Get the questions given a specific tag",
@@ -58,7 +58,7 @@ const availableFunctions = [
     },
   },
   {
-    function: getQuestionById,
+    function: getMCQuestionById,
     schema: {
       name: "getQuestionById",
       description: "Get a question of a particular ID",
@@ -76,7 +76,7 @@ const availableFunctions = [
     },
   },
   {
-    function: getAllQuestions,
+    function: getAllMCQuestions,
     schema: {
       name: "getAllQuestions",
       description: "Get all questions",
@@ -84,7 +84,7 @@ const availableFunctions = [
     },
   },
   {
-    function: getTags,
+    function: getMCTags,
     schema: {
       name: "getTags",
       description: "Get all tags",
@@ -93,7 +93,7 @@ const availableFunctions = [
   },
 
   {
-    function: deleteQuestion,
+    function: deleteMCQuestion,
     schema: {
       name: "deleteQuestion",
       description: "Delete a question of a particular ID",
@@ -111,7 +111,7 @@ const availableFunctions = [
     },
   },
   {
-    function: deleteAllQuestions,
+    function: deleteAllMCQuestions,
     schema: {
       name: "deleteAllQuestions",
       description: "Delete all of the questions",
@@ -119,7 +119,7 @@ const availableFunctions = [
     },
   },
   {
-    function: setQuestionsStatusByTag,
+    function: setMCQuestionsStatusByTag,
     schema: {
       name: "setQuestionsStatusByTag",
       description:
@@ -143,7 +143,7 @@ const availableFunctions = [
     },
   },
   {
-    function: setQuestionStatusById,
+    function: setMCQuestionStatusById,
     schema: {
       name: "setQuestionStatusById",
       description:
@@ -168,7 +168,7 @@ const availableFunctions = [
     },
   },
   {
-    function: setAllQuestionsStatus,
+    function: setAllMCQuestionsStatus,
     schema: {
       name: "setAllQuestionsStatus",
       description: "Set all questions to either 'approved' or 'denied'.",
@@ -188,6 +188,6 @@ const availableFunctions = [
   },
 ];
 
-module.exports = availableFunctions;
+module.exports = availableMCFunctions;
 
 // Solid
