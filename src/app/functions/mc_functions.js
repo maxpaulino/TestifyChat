@@ -1,6 +1,6 @@
 const mongodb = require("../../config/mongodb.js");
 const { ObjectId } = require("mongodb");
-const runGeneration = require("../llm/runGeneration.js");
+const runGeneration = require("../llm/runTFGeneration.js");
 
 async function createMCQuestions(args) {
   const level = args.level;
