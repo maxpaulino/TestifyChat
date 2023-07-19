@@ -2,7 +2,7 @@ const mongodb = require("../../config/mongodb.js");
 const { ObjectId } = require("mongodb");
 const runGeneration = require("../llm/runGeneration.js");
 
-async function createQuestions(args) {
+async function createTFQuestions(args) {
   const level = args.level;
   const tag = args.tag;
   const number = args.number;
@@ -54,7 +54,7 @@ async function createQuestions(args) {
   );
 }
 
-async function getTags() {
+async function getTFTags() {
   try {
     let tags = await mongodb.distinct("tag");
     return tags.join(", ");
@@ -64,7 +64,7 @@ async function getTags() {
   }
 }
 
-async function getQuestionsByTag(args) {
+async function getTFQuestionsByTag(args) {
   const tag = args.tag;
 
   try {
@@ -92,7 +92,7 @@ Revised: ${question.revised}
   }
 }
 
-async function getQuestionById(args) {
+async function getTFQuestionById(args) {
   const questionId = args.id;
 
   try {
@@ -120,7 +120,7 @@ Revised: ${question.revised}
   }
 }
 
-async function getAllQuestions() {
+async function getAllTFQuestions() {
   try {
     let questions = await mongodb.find().toArray();
 
@@ -146,7 +146,7 @@ Revised: ${question.revised}
   }
 }
 
-async function deleteQuestion(args) {
+async function deleteTFQuestion(args) {
   const id = new ObjectId(args.id);
   try {
     await mongodb.deleteOne({ _id: id });
@@ -157,7 +157,7 @@ async function deleteQuestion(args) {
   }
 }
 
-async function deleteAllQuestions() {
+async function deleteAllTFQuestions() {
   try {
     await mongodb.deleteMany({});
     return "Deleted questions!";
@@ -167,7 +167,7 @@ async function deleteAllQuestions() {
   }
 }
 
-async function setQuestionsStatusByTag(args) {
+async function setTFQuestionsStatusByTag(args) {
   const tag = args.tag;
   const status = args.status;
   try {
@@ -179,7 +179,7 @@ async function setQuestionsStatusByTag(args) {
   }
 }
 
-async function setQuestionStatusById(args) {
+async function setTFQuestionStatusById(args) {
   const id = args.id;
   const status = args.status;
   try {
@@ -191,7 +191,7 @@ async function setQuestionStatusById(args) {
   }
 }
 
-async function setAllQuestionsStatus(args) {
+async function setAllTFQuestionsStatus(args) {
   const status = args.status;
   try {
     await mongodb.updateMany({}, { $set: { status: status, revised: true } });
@@ -203,14 +203,14 @@ async function setAllQuestionsStatus(args) {
 }
 
 module.exports = {
-  createQuestions: createQuestions,
-  getAllQuestions: getAllQuestions,
-  getQuestionById: getQuestionById,
-  getQuestionsByTag: getQuestionsByTag,
-  setAllQuestionsStatus: setAllQuestionsStatus,
-  setQuestionStatusById: setQuestionStatusById,
-  setQuestionsStatusByTag: setQuestionsStatusByTag,
-  deleteQuestion: deleteQuestion,
-  deleteAllQuestions: deleteAllQuestions,
-  getTags: getTags,
+  createTFQuestions: createTFQuestions,
+  getAllTFQuestions: getAllTFQuestions,
+  getTFQuestionById: getTFQuestionById,
+  getTFQuestionsByTag: getTFQuestionsByTag,
+  setAllTFQuestionsStatus: setAllTFQuestionsStatus,
+  setTFQuestionStatusById: setTFQuestionStatusById,
+  setTFQuestionsStatusByTag: setTFQuestionsStatusByTag,
+  deleteTFQuestion: deleteTFQuestion,
+  deleteAllTFQuestions: deleteAllTFQuestions,
+  getTFTags: getTFTags,
 };
