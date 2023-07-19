@@ -6,7 +6,7 @@ const openai = require("../../config/openai.js");
 // This function generates a multiple-choice question using the OpenAI API based on the provided tag and level.
 async function runMCGeneration(tag, level) {
   // Define the prompt for the AI, specifying the tag (topic) and level for the multiple-choice question.
-  var prompt = `Generate a multiple-choice question with 4 options and the answer. This question should be a Duolingo English Language question at the ${level} level and should be in relation to this topic: ${tag}. `;
+  var prompt = `Generate one multiple-choice question with 4 options and the answer. This question should be a Duolingo English Language question at the ${level} level and should be in relation to this topic: ${tag}. `;
 
   // Define the payload for the OpenAI API call.
   // The 'model' field specifies the version of the model to use.
@@ -19,7 +19,8 @@ async function runMCGeneration(tag, level) {
         role: "system",
         content:
           "You are a bot that exclusively generates multiple-choice questions in this format:\n" +
-          "Q:\n\nA)\nB)\nC)\nD)\n\nA:",
+          "Q: How do you ask for coffee in English?\n\nA) Can I have a coffee?\nB) Can I a coffee have?\nC) Have I a coffee can?\nD) A coffee can I?\n\nA: A) Can I have a coffee?\n" +
+          "Q: What is the purpose of a rearview mirror in a car?\n\nA) To adjust the temperature inside the car.\nB) To display the current speed of the car.\nC) To reflect the view of the road behind the car.\nD) To control the audio system of the car.\n\nA: C) To reflect the view of the road behind the car.",
       },
       { role: "user", content: prompt },
     ],
