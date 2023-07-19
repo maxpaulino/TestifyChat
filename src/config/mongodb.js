@@ -27,7 +27,7 @@ main().catch(console.error);
 
 // Get a reference to the "Questions" collection in the "Testify" database.
 // This will be used in other parts of the application to interact with the "Questions" collection.
-const mongodb = client.db("Testify").collection("Questions");
+const mongodb = client.db("Testify");
 
 // Export the mongodb object so that it can be required in other parts of the application
 module.exports = mongodb;

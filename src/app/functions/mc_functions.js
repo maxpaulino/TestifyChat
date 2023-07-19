@@ -1,4 +1,4 @@
-const mongodb = require("../../config/mongodb.js");
+const mongodb = require("../../config/mongodb.js").collection("mc_questions");
 const { ObjectId } = require("mongodb");
 const runGeneration = require("../llm/runTFGeneration.js");
 
