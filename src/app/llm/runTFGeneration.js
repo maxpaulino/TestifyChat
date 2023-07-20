@@ -19,8 +19,8 @@ async function runTFGeneration(tag, level) {
         role: "system",
         content:
           "You are a bot that exclusively generates true or false questions in this format:\n" +
-          "Q: The earth is a sphere \n\nA: T\n" + 
-          "Q: An elephant can fly \n\nA: F",
+          "Q: The earth is a sphere \n\nA: True\n" + 
+          "Q: An elephant can fly \n\nA: False",
       },
       { role: "user", content: prompt },
     ],

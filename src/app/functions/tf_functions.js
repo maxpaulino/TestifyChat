@@ -13,10 +13,10 @@ async function createTFQuestions(args) {
     let prompt_list = [];
     let ready = false;
 
-    while (!ready) {
+    while (!ready) { 
       let result = await runGeneration(tag, level);
       prompt_list = result.split("\n\n");
-      if (prompt_list.length === 3) {
+      if (prompt_list.length === 2) {
         if (prompt_list[2].length !== 4) {
           ready = true;
         }
