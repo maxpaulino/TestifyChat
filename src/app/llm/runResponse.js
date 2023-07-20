@@ -21,9 +21,11 @@ function callFunction(function_call) {
   );
   // Parse the arguments for the function call.
   const args = JSON.parse(function_call.arguments);
+  const name = JSON.parse(function_call.name);
   // Log the arguments.
   console.log("Arguments:");
   console.log(args);
+  console.log(name);
   // Call the function with the parsed arguments and return the result.
   return func.function(args);
 }

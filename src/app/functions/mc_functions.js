@@ -15,11 +15,10 @@ async function createMCQuestions(args) {
 
     while (!ready) {
       let result = await runGeneration(tag, level);
+      console.log(result);
       prompt_list = result.split("\n\n");
       if (prompt_list.length === 3) {
-        if (prompt_list[2].length !== 4) {
-          ready = true;
-        }
+        ready = true;
       }
     }
 

@@ -17,7 +17,7 @@ const availableMCFunctions = [
   {
     function: createMCQuestions,
     schema: {
-      name: "createQuestions",
+      name: "createMCQuestions",
       descriptions: "Create a multiple choice question given a tag, level, and a number",
       parameters: {
         type: "object",
@@ -43,7 +43,7 @@ const availableMCFunctions = [
   {
     function: getMCQuestionsByTag,
     schema: {
-      name: "getQuestionsByTag",
+      name: "getMCQuestionsByTag",
       description: "Get the multiple choice questions given a specific tag",
       parameters: {
         type: "object",
@@ -60,7 +60,7 @@ const availableMCFunctions = [
   {
     function: getMCQuestionById,
     schema: {
-      name: "getQuestionById",
+      name: "getMCQuestionById",
       description: "Get a multiple choice question of a particular ID",
       parameters: {
         type: "object",
@@ -78,7 +78,7 @@ const availableMCFunctions = [
   {
     function: getAllMCQuestions,
     schema: {
-      name: "getAllQuestions",
+      name: "getAllMCQuestions",
       description: "Get all multiple choice questions",
       parameters: { type: "object", properties: {} },
     },
@@ -86,7 +86,7 @@ const availableMCFunctions = [
   {
     function: getMCTags,
     schema: {
-      name: "getTags",
+      name: "getMCTags",
       description: "Get all multiple choice question tags",
       parameters: { type: "object", properties: {} },
     },
@@ -95,7 +95,7 @@ const availableMCFunctions = [
   {
     function: deleteMCQuestion,
     schema: {
-      name: "deleteQuestion",
+      name: "deleteMCQuestion",
       description: "Delete a multiple choice question of a particular ID",
       parameters: {
         type: "object",
@@ -113,7 +113,7 @@ const availableMCFunctions = [
   {
     function: deleteAllMCQuestions,
     schema: {
-      name: "deleteAllQuestions",
+      name: "deleteAllMCQuestions",
       description: "Delete all of the multiple choice questions",
       parameters: { type: "object", properties: {} },
     },
@@ -121,7 +121,7 @@ const availableMCFunctions = [
   {
     function: setMCQuestionsStatusByTag,
     schema: {
-      name: "setQuestionsStatusByTag",
+      name: "setMCQuestionsStatusByTag",
       description:
         "Set all multiple choice questions with a specific tag to either 'approved' or 'denied'.",
       parameters: {
@@ -145,7 +145,7 @@ const availableMCFunctions = [
   {
     function: setMCQuestionStatusById,
     schema: {
-      name: "setQuestionStatusById",
+      name: "setMCQuestionStatusById",
       description:
         "Set a multiple choie question with a specific ID to either 'approved' or 'denied'.",
       parameters: {
@@ -170,7 +170,7 @@ const availableMCFunctions = [
   {
     function: setAllMCQuestionsStatus,
     schema: {
-      name: "setAllQuestionsStatus",
+      name: "setAllMCQuestionsStatus",
       description: "Set all multiple choice questions to either 'approved' or 'denied'.",
       parameters: {
         type: "object",
