@@ -24,15 +24,11 @@ async function createTFQuestions(args) {
     let question = prompt_list[0].substring(3);
     let answer = prompt_list[1].substring(3).toLowerCase() === 'true' ? true : false;
 
-    if (answer.startsWith("wer: ")) {
-      answer = prompt_list[2].substring(8);
-    }
 
     const question_data = {
       tag: tag,
       level: level,
       question: question,
-      
       answer: answer,
       status: "pending",
       revised: false,

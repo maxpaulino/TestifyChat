@@ -1,6 +1,6 @@
 const mongodb = require("../../config/mongodb.js").collection("mc_questions");
 const { ObjectId } = require("mongodb");
-const runGeneration = require("../llm/runTFGeneration.js");
+const runGeneration = require("../llm/runMCGeneration.js");
 
 async function createMCQuestions(args) {
   const level = args.level;
@@ -25,10 +25,6 @@ async function createMCQuestions(args) {
     let question = prompt_list[0].substring(3);
     let choices = prompt_list[1].split("\n");
     let answer = prompt_list[2].substring(3);
-
-    if (answer.startsWith("wer: ")) {
-      answer = prompt_list[2].substring(8);
-    }
 
     const question_data = {
       tag: tag,

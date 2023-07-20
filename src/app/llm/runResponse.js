@@ -20,12 +20,9 @@ function callFunction(function_call) {
     (func) => func.schema.name === function_call.name
   );
   // Parse the arguments for the function call.
-  const args = JSON.parse(function_call.arguments);
-  const name = JSON.parse(function_call.name);
-  // Log the arguments.
+  const args = JSON.parse(function_call.arguments);  // Log the arguments.
   console.log("Arguments:");
   console.log(args);
-  console.log(name);
   // Call the function with the parsed arguments and return the result.
   return func.function(args);
 }
