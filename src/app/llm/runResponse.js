@@ -2,9 +2,13 @@
 // 'openai' is an instance of OpenAIApi created elsewhere in the application and imported here.
 // 'function_schemas' is a collection of function schemas used to create custom behavior in chat models.
 const openai = require("../../config/openai.js");
-const function_schemas = require("../functions/mc_function_schemas.js");
+const mc_function_schema = require("../functions/mc_function_schema.js");
+const tf_function_schema = require("../functions/tf_function_schema.js");
+
+const function_schemas = [...mc_function_schema, ...tf_function_schema];
 
 // Initialize the chat history.
+
 var history = [];
 
 
