@@ -18,7 +18,7 @@ const availableTFFunctions = [
     function: createTFQuestions,
     schema: {
       name: "createQuestions",
-      descriptions: "Create a question given a tag, level, and a number",
+      descriptions: "Create a true or false question given a tag, level, and a number",
       parameters: {
         type: "object",
         properties: {
@@ -44,7 +44,7 @@ const availableTFFunctions = [
     function: getTFQuestionsByTag,
     schema: {
       name: "getQuestionsByTag",
-      description: "Get the questions given a specific tag",
+      description: "Get the true or false questions given a specific tag",
       parameters: {
         type: "object",
         properties: {
@@ -61,7 +61,7 @@ const availableTFFunctions = [
     function: getTFQuestionById,
     schema: {
       name: "getQuestionById",
-      description: "Get a question of a particular ID",
+      description: "Get a true or false question of a particular ID",
       parameters: {
         type: "object",
         properties: {
@@ -79,7 +79,7 @@ const availableTFFunctions = [
     function: getAllTFQuestions,
     schema: {
       name: "getAllQuestions",
-      description: "Get all questions",
+      description: "Get all true or false questions",
       parameters: { type: "object", properties: {} },
     },
   },
@@ -87,7 +87,7 @@ const availableTFFunctions = [
     function: getTFTags,
     schema: {
       name: "getTags",
-      description: "Get all tags",
+      description: "Get all true or false question tags",
       parameters: { type: "object", properties: {} },
     },
   },
@@ -96,7 +96,7 @@ const availableTFFunctions = [
     function: deleteTFQuestion,
     schema: {
       name: "deleteQuestion",
-      description: "Delete a question of a particular ID",
+      description: "Delete a true or false question of a particular ID",
       parameters: {
         type: "object",
         properties: {
@@ -114,7 +114,7 @@ const availableTFFunctions = [
     function: deleteAllTFQuestions,
     schema: {
       name: "deleteAllQuestions",
-      description: "Delete all of the questions",
+      description: "Delete all of the true or false questions",
       parameters: { type: "object", properties: {} },
     },
   },
@@ -123,7 +123,7 @@ const availableTFFunctions = [
     schema: {
       name: "setQuestionsStatusByTag",
       description:
-        "Set all questions with a specific tag to either 'approved' or 'denied'.",
+        "Set all true or false questions with a specific tag to either 'approved' or 'denied'.",
       parameters: {
         type: "object",
         properties: {
@@ -147,7 +147,7 @@ const availableTFFunctions = [
     schema: {
       name: "setQuestionStatusById",
       description:
-        "Set question with a specific ID to either 'approved' or 'denied'.",
+        "Set a true or false question with a specific ID to either 'approved' or 'denied'.",
       parameters: {
         type: "object",
         properties: {
@@ -171,7 +171,7 @@ const availableTFFunctions = [
     function: setAllTFQuestionsStatus,
     schema: {
       name: "setAllQuestionsStatus",
-      description: "Set all questions to either 'approved' or 'denied'.",
+      description: "Set all true or false questions to either 'approved' or 'denied'.",
       parameters: {
         type: "object",
         properties: {
