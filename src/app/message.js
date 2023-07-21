@@ -5,19 +5,45 @@
 // 'dotenv' is a zero-dependency module that loads environment variables from a .env file into process.env.
 const whatsapp = require("../config/whatsapp.js");
 const runResponse = require("./llm/runResponse.js");
+const fs = require('fs');
+const transcribeMessage = require('./llm/transcribeMessage.js');
 require("dotenv").config();
 
 // Get the phone number from the environment variables.
 const phoneNumber = process.env.PHONE_NUMBER;
 
+// Directory to save audio files
+const audioDir = './audioMessages/';
+
 // Listen for messages from WhatsApp.
-whatsapp.on("message", (message) => {
+whatsapp.on("message", async (message) => {
   // Log the content of the received message.
   console.log(message.body);
   console.log(message.from);
 
-  // If the message is from the phone number in the environment variables, handle the prompt and reply with the response.
+  // If the message is from the phone number in the environment variables
   if (message.from === phoneNumber) {
-    runResponse(message.body).then((response) => message.reply(response));
+
+    // Check if the message is a voice message
+    if (message.hasMedia && message.type === 'audio') {
+
+      // Get the media
+      const media = await message.downloadMedia();
+
+      // Create a filename using current timestamp
+      const filename = `${audioDir}audio_${Date.now()}.${media.mimetype.split('/')[1]}`;
+
+      // Save the media to the audio directory
+      fs.writeFileSync(filename, media.data, 'base64');
+
+      // Transcribe the message
+      const transcription = await transcribeMessage(filename);
+
+      // Then, handle the transcribed text and reply with the response.
+      runResponse(transcription).then((response) => message.reply(response));
+    } else {
+      // For non-voice messages, continue with the regular runResponse.
+      runResponse(message.body).then((response) => message.reply(response));
+    }
   }
 });
