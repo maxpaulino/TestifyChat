@@ -19,6 +19,7 @@ async function transcribeMessage(filename) {
     }
 
     // Return the transcript
+    
     return resp.data.transcript;
 }
 

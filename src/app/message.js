@@ -6,6 +6,7 @@
 const whatsapp = require("../config/whatsapp.js");
 const runResponse = require("./llm/runResponse.js");
 const fs = require('fs');
+const ffmpeg = require('fluent-ffmpeg');
 const transcribeMessage = require('./llm/transcribeMessage.js');
 require("dotenv").config();
 
@@ -25,7 +26,8 @@ whatsapp.on("message", async (message) => {
   if (message.from === phoneNumber) {
 
     // Check if the message is a voice message
-    if (message.hasMedia && message.type === 'audio') {
+    if (message.hasMedia) {
+      console.log("This is a voice message!")
 
       // Get the media
       const media = await message.downloadMedia();
@@ -36,6 +38,35 @@ whatsapp.on("message", async (message) => {
       // Save the media to the audio directory
       fs.writeFileSync(filename, media.data, 'base64');
 
+      // Check if it is a .ogg file
+      if (media.mimetype.includes('ogg')) {
+          const outputFileName = filename.replace('ogg', 'mp3');
+          ffmpeg(filename)
+              .toFormat('mp3')
+              .on('error', (err) => {
+                  console.log('An error occurred: ' + err.message);
+              })
+              .on('progress', (progress) => {
+                  console.log('Processing: ' + progress.targetSize + ' KB converted');
+              })
+              .on('end', () => {
+                  console.log('Processing finished !');
+                  // Proceed with transcription
+                  proceedWithTranscription(outputFileName);
+              })
+              .save(outputFileName); //path where you want to save your file
+      } else {
+          // If not ogg, proceed with transcription
+          proceedWithTranscription(filename);
+      }
+    } else {
+      console.log("This is a text message!")
+      // For non-voice messages, continue with the regular runResponse.
+      runResponse(message.body).then((response) => message.reply(response));
+    }
+  }
+
+  async function proceedWithTranscription(filename) {
       // Transcribe the message
       const transcription = await transcribeMessage(filename);
 
@@ -43,9 +74,6 @@ whatsapp.on("message", async (message) => {
 
       // Then, handle the transcribed text and reply with the response.
       runResponse(transcription).then((response) => message.reply(response));
-    } else {
-      // For non-voice messages, continue with the regular runResponse.
-      runResponse(message.body).then((response) => message.reply(response));
-    }
   }
 });
+
