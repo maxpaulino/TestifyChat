@@ -39,6 +39,8 @@ whatsapp.on("message", async (message) => {
       // Transcribe the message
       const transcription = await transcribeMessage(filename);
 
+      console.log(transcription);
+
       // Then, handle the transcribed text and reply with the response.
       runResponse(transcription).then((response) => message.reply(response));
     } else {
