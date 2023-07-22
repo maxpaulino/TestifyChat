@@ -23,15 +23,16 @@ whatsapp.on("message", async (message) => {
 
   // If the message is from the phone number in the environment variables
   if (message.from === phoneNumber) {
+    console.log("This is a voice message.")
 
     // Check if the message is a voice message
-    if (message.hasMedia && message.type === 'audio') {
+    if (message.hasMedia) {
 
       // Get the media
       const media = await message.downloadMedia();
 
       // Create a filename using current timestamp
-      const filename = `${audioDir}audio_${Date.now()}.${media.mimetype.split('/')[1]}`;
+      const filename = `${audioDir}audio_${Date.now()}.${media.mimetype.split(';')[0].split('/')[1]}`;
 
       // Save the media to the audio directory
       fs.writeFileSync(filename, media.data, 'base64');
@@ -44,6 +45,8 @@ whatsapp.on("message", async (message) => {
       // Then, handle the transcribed text and reply with the response.
       runResponse(transcription).then((response) => message.reply(response));
     } else {
+      console.log("This is a text message.")
+
       // For non-voice messages, continue with the regular runResponse.
       runResponse(message.body).then((response) => message.reply(response));
     }
