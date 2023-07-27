@@ -1,7 +1,6 @@
 const fs = require('fs');
 const openai = require("../../config/openai.js");
 
-
 async function transcribeMessage(filename) {
     const resp = await openai.createTranscription(
         fs.createReadStream(filename), // Audio input file
