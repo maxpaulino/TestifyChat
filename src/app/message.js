@@ -23,10 +23,10 @@ whatsapp.on("message", async (message) => {
 
   // If the message is from the phone number in the environment variables
   if (message.from === phoneNumber) {
-    console.log("This is a voice message.")
 
     // Check if the message is a voice message
     if (message.hasMedia) {
+      console.log("This is a voice message.")
 
       // Get the media
       const media = await message.downloadMedia();
